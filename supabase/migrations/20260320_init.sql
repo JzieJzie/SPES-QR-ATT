@@ -329,12 +329,12 @@ begin
   end if;
 
   if v_status = 'accepted' then
-    select scanned_at into v_existing_scan
-    from public.attendance_events
-    where beneficiary_ref = v_beneficiary.id
-      and attendance_date = v_attendance_date
-      and event_type = v_event_type
-    order by scanned_at desc
+    select e.scanned_at into v_existing_scan
+    from public.attendance_events e
+    where e.beneficiary_ref = v_beneficiary.id
+      and e.attendance_date = v_attendance_date
+      and e.event_type = v_event_type
+    order by e.scanned_at desc
     limit 1;
 
     if v_existing_scan is not null and extract(epoch from (v_now - v_existing_scan)) <= 10 then
