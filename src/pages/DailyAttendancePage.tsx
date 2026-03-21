@@ -5,7 +5,7 @@ import { Card } from '../components/ui/Card'
 import { Input } from '../components/ui/Input'
 import { Table, Td, Th } from '../components/ui/Table'
 import { fetchDailyAttendance } from '../features/attendance/api'
-import { toManilaDate } from '../lib/utils/time'
+import { formatReadableTime, toManilaDate } from '../lib/utils/time'
 
 export const DailyAttendancePage = () => {
   const [date, setDate] = useState(toManilaDate(new Date()))
@@ -13,6 +13,8 @@ export const DailyAttendancePage = () => {
   const { data = [], isLoading } = useQuery({
     queryKey: ['daily-attendance', date],
     queryFn: () => fetchDailyAttendance(date),
+    refetchInterval: 5000,
+    refetchIntervalInBackground: true,
   })
 
   const rows = useMemo(() => data, [data])
@@ -52,10 +54,10 @@ export const DailyAttendancePage = () => {
               <tr key={row.id}>
                 <Td>{`${row.beneficiaries.beneficiary_id} - ${row.beneficiaries.last_name}, ${row.beneficiaries.first_name}`}</Td>
                 <Td>{row.beneficiaries.barangays.name}</Td>
-                <Td>{row.am_time_in ?? '-'}</Td>
-                <Td>{row.am_time_out ?? '-'}</Td>
-                <Td>{row.pm_time_in ?? '-'}</Td>
-                <Td>{row.pm_time_out ?? '-'}</Td>
+                <Td>{row.am_time_in ? formatReadableTime(row.am_time_in) : '-'}</Td>
+                <Td>{row.am_time_out ? formatReadableTime(row.am_time_out) : '-'}</Td>
+                <Td>{row.pm_time_in ? formatReadableTime(row.pm_time_in) : '-'}</Td>
+                <Td>{row.pm_time_out ? formatReadableTime(row.pm_time_out) : '-'}</Td>
                 <Td>
                   {[
                     row.am_time_in_late ? 'AM Late' : null,

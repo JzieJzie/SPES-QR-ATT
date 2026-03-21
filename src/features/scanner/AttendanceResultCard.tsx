@@ -1,7 +1,7 @@
 import { Badge } from '../../components/ui/Badge'
 import { Card } from '../../components/ui/Card'
 
-import { formatTimestampWithSeconds } from '../../lib/utils/time'
+import { formatReadableTimestamp } from '../../lib/utils/time'
 
 type AttendanceResultCardProps = {
   result: {
@@ -31,7 +31,7 @@ export const AttendanceResultCard = ({ result }: AttendanceResultCardProps) => {
         <dt className="font-mono">Event Type</dt>
         <dd>{result.event_type ?? 'N/A'}</dd>
         <dt className="font-mono">Timestamp</dt>
-        <dd>{formatTimestampWithSeconds(result.scanned_at)}</dd>
+        <dd>{formatReadableTimestamp(result.scanned_at)} (PHT)</dd>
       </dl>
     </Card>
   )

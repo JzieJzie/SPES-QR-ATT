@@ -21,6 +21,8 @@ export const DashboardPage = () => {
   const { data, isLoading } = useQuery({
     queryKey: ['dashboard-counts'],
     queryFn: fetchCounts,
+    refetchInterval: 5000,
+    refetchIntervalInBackground: true,
   })
 
   return (
