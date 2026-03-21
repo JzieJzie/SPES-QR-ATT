@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
 
 import { ArchiveConfirmDialog } from '../features/beneficiaries/ArchiveConfirmDialog'
 import { archiveBeneficiary, fetchBeneficiaries } from '../features/beneficiaries/api'
@@ -9,6 +10,7 @@ import { Input } from '../components/ui/Input'
 import { Table, Td, Th } from '../components/ui/Table'
 
 export const BeneficiariesPage = () => {
+  const navigate = useNavigate()
   const queryClient = useQueryClient()
   const [keyword, setKeyword] = useState('')
   const [selected, setSelected] = useState<{ id: string; beneficiaryId: string } | null>(null)
@@ -47,11 +49,16 @@ export const BeneficiariesPage = () => {
 
   return (
     <Card title="Beneficiaries" className="space-y-4">
-      <Input
-        placeholder="Search by name, ID, barangay"
-        value={keyword}
-        onChange={(event) => setKeyword(event.target.value)}
-      />
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+        <Input
+          placeholder="Search by name, ID, barangay"
+          value={keyword}
+          onChange={(event) => setKeyword(event.target.value)}
+        />
+        <Button variant="outline" onClick={() => navigate('/beneficiaries/archived')}>
+          View Archived
+        </Button>
+      </div>
 
       <Table>
         <thead>
