@@ -17,7 +17,10 @@ export const recordAttendanceScan = async (
     p_device_info: deviceInfo,
   })
 
-  if (error) throw error
+  if (error) {
+    const details = [error.message, error.details, error.hint].filter(Boolean).join(' | ')
+    throw new Error(details || 'Scan failed.')
+  }
   if (!data || !data[0]) {
     throw new Error('No scan result returned from server.')
   }

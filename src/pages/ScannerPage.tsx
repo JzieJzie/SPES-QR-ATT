@@ -25,7 +25,11 @@ export const ScannerPage = () => {
             const scan = await recordAttendanceScan(decodedText.trim(), deviceInfo)
             setResult(scan)
           } catch (error) {
-            setErrorMessage(error instanceof Error ? error.message : 'Scan failed.')
+            const fallbackMessage =
+              typeof error === 'object' && error && 'message' in error
+                ? String((error as { message: unknown }).message)
+                : 'Scan failed.'
+            setErrorMessage(error instanceof Error ? error.message : fallbackMessage)
           }
         }}
         onError={(message) => setErrorMessage(message)}
