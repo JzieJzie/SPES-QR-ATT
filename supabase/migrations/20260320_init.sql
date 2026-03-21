@@ -455,88 +455,106 @@ as $$
 $$;
 
 -- Profiles
+drop policy if exists "Users can read own profile" on public.profiles;
 create policy "Users can read own profile"
 on public.profiles for select
 using (id = auth.uid() or public.current_role() in ('leader', 'developer'));
 
+drop policy if exists "Leaders and developers can manage profiles" on public.profiles;
 create policy "Leaders and developers can manage profiles"
 on public.profiles for all
 using (public.current_role() in ('leader', 'developer'))
 with check (public.current_role() in ('leader', 'developer'));
 
 -- Barangays
+drop policy if exists "Authenticated can read barangays" on public.barangays;
 create policy "Authenticated can read barangays"
 on public.barangays for select
 using (auth.uid() is not null);
 
+drop policy if exists "Leaders and developers manage barangays" on public.barangays;
 create policy "Leaders and developers manage barangays"
 on public.barangays for all
 using (public.current_role() in ('leader', 'developer'))
 with check (public.current_role() in ('leader', 'developer'));
 
 -- Beneficiaries
+drop policy if exists "Authenticated can read beneficiaries" on public.beneficiaries;
 create policy "Authenticated can read beneficiaries"
 on public.beneficiaries for select
 using (auth.uid() is not null);
 
+drop policy if exists "Leaders and developers manage beneficiaries" on public.beneficiaries;
 create policy "Leaders and developers manage beneficiaries"
 on public.beneficiaries for all
 using (public.current_role() in ('leader', 'developer'))
 with check (public.current_role() in ('leader', 'developer'));
 
 -- QR codes
+drop policy if exists "Authenticated can read qr metadata" on public.beneficiary_qr_codes;
 create policy "Authenticated can read qr metadata"
 on public.beneficiary_qr_codes for select
 using (auth.uid() is not null);
 
+drop policy if exists "Leaders and developers manage qr metadata" on public.beneficiary_qr_codes;
 create policy "Leaders and developers manage qr metadata"
 on public.beneficiary_qr_codes for all
 using (public.current_role() in ('leader', 'developer'))
 with check (public.current_role() in ('leader', 'developer'));
 
 -- Attendance events
+drop policy if exists "Co-leader leader and developer can read events" on public.attendance_events;
 create policy "Co-leader leader and developer can read events"
 on public.attendance_events for select
 using (public.current_role() in ('leader', 'co-leader', 'developer'));
 
+drop policy if exists "Co-leader leader and developer can insert events" on public.attendance_events;
 create policy "Co-leader leader and developer can insert events"
 on public.attendance_events for insert
 with check (public.current_role() in ('leader', 'co-leader', 'developer'));
 
+drop policy if exists "Leaders and developers can update events" on public.attendance_events;
 create policy "Leaders and developers can update events"
 on public.attendance_events for update
 using (public.current_role() in ('leader', 'developer'))
 with check (public.current_role() in ('leader', 'developer'));
 
 -- Attendance daily
+drop policy if exists "Co-leader leader and developer can read daily" on public.attendance_daily;
 create policy "Co-leader leader and developer can read daily"
 on public.attendance_daily for select
 using (public.current_role() in ('leader', 'co-leader', 'developer'));
 
+drop policy if exists "Leaders and developers can manage daily" on public.attendance_daily;
 create policy "Leaders and developers can manage daily"
 on public.attendance_daily for all
 using (public.current_role() in ('leader', 'developer'))
 with check (public.current_role() in ('leader', 'developer'));
 
 -- Imports and audit
+drop policy if exists "Leaders and developers manage imports" on public.imports;
 create policy "Leaders and developers manage imports"
 on public.imports for all
 using (public.current_role() in ('leader', 'developer'))
 with check (public.current_role() in ('leader', 'developer'));
 
+drop policy if exists "Leaders and developers read audit logs" on public.audit_logs;
 create policy "Leaders and developers read audit logs"
 on public.audit_logs for select
 using (public.current_role() in ('leader', 'developer'));
 
+drop policy if exists "System writes audit logs" on public.audit_logs;
 create policy "System writes audit logs"
 on public.audit_logs for insert
 with check (auth.uid() is not null);
 
 -- Storage policies
+drop policy if exists "Authenticated read QR files" on storage.objects;
 create policy "Authenticated read QR files"
 on storage.objects for select
 using (bucket_id = 'qr-codes' and auth.role() = 'authenticated');
 
+drop policy if exists "Leaders and developers write QR files" on storage.objects;
 create policy "Leaders and developers write QR files"
 on storage.objects for insert
 with check (
@@ -548,6 +566,7 @@ with check (
   )
 );
 
+drop policy if exists "Leaders and developers update QR files" on storage.objects;
 create policy "Leaders and developers update QR files"
 on storage.objects for update
 using (
@@ -567,6 +586,7 @@ with check (
   )
 );
 
+drop policy if exists "Leaders and developers delete QR files" on storage.objects;
 create policy "Leaders and developers delete QR files"
 on storage.objects for delete
 using (

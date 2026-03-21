@@ -3,6 +3,8 @@ import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { ProtectedRoute } from '../components/shared/ProtectedRoute'
 import { AppLayout } from '../components/shared/AppLayout'
 import { LoginPage } from '../pages/LoginPage'
+import { RegisterPage } from '../pages/RegisterPage'
+import { VerifyAccountPage } from '../pages/VerifyAccountPage'
 import { DashboardPage } from '../pages/DashboardPage'
 import { BeneficiariesPage } from '../pages/BeneficiariesPage'
 import { ImportMasterlistPage } from '../pages/ImportMasterlistPage'
@@ -13,11 +15,22 @@ import { DailyAttendancePage } from '../pages/DailyAttendancePage'
 import { ReportsPage } from '../pages/ReportsPage'
 import { UserManagementPage } from '../pages/UserManagementPage'
 import { SettingsPage } from '../pages/SettingsPage'
+import { ProfilePage } from '../pages/ProfilePage'
+import { LeadersDirectoryPage } from '../pages/LeadersDirectoryPage'
+import { BarangayMapPage } from '../pages/BarangayMapPage'
 
 export const router = createBrowserRouter([
   {
     path: '/login',
     element: <LoginPage />,
+  },
+  {
+    path: '/register',
+    element: <RegisterPage />,
+  },
+  {
+    path: '/verify-account',
+    element: <VerifyAccountPage />,
   },
   {
     path: '/',
@@ -34,6 +47,9 @@ export const router = createBrowserRouter([
           { path: 'scanner', element: <ScannerPage /> },
           { path: 'attendance/daily', element: <DailyAttendancePage /> },
           { path: 'reports', element: <ReportsPage /> },
+          { path: 'profile', element: <ProfilePage /> },
+          { path: 'leaders-directory', element: <LeadersDirectoryPage /> },
+          { path: 'barangay-map', element: <BarangayMapPage /> },
           {
             path: 'users',
             element: (

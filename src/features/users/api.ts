@@ -3,10 +3,14 @@ import type { Profile } from '../../types/domain'
 
 type ManageableRole = 'leader' | 'co-leader' | 'developer'
 
-export const fetchUsers = async (): Promise<Profile[]> => {
-  const { data, error } = await supabase.from('profiles').select('*').order('created_at')
+export type ScopedUser = Profile & {
+  barangay_name: string | null
+}
+
+export const fetchUsers = async (): Promise<ScopedUser[]> => {
+  const { data, error } = await supabase.rpc('list_users_scoped')
   if (error) throw error
-  return (data ?? []) as Profile[]
+  return (data ?? []) as ScopedUser[]
 }
 
 export const setUserRole = async (userId: string, role: ManageableRole): Promise<void> => {
@@ -16,4 +20,18 @@ export const setUserRole = async (userId: string, role: ManageableRole): Promise
   })
 
   if (error) throw error
+}
+
+export type LeaderDirectoryRecord = {
+  id: string
+  full_name: string | null
+  role: 'leader' | 'co-leader'
+  barangay_name: string | null
+  avatar_url: string | null
+}
+
+export const fetchLeaderDirectory = async (): Promise<LeaderDirectoryRecord[]> => {
+  const { data, error } = await supabase.rpc('list_leader_directory')
+  if (error) throw error
+  return (data ?? []) as LeaderDirectoryRecord[]
 }

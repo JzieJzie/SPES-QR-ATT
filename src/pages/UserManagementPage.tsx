@@ -32,6 +32,7 @@ export const UserManagementPage = () => {
               <Th>User ID</Th>
               <Th>Full Name</Th>
               <Th>Role</Th>
+              <Th>Barangay</Th>
               <Th>Action</Th>
             </tr>
           </thead>
@@ -42,6 +43,7 @@ export const UserManagementPage = () => {
                 <Td />
                 <Td />
                 <Td />
+                <Td />
               </tr>
             ) : (
               data.map((user) => (
@@ -49,6 +51,7 @@ export const UserManagementPage = () => {
                   <Td>{user.id}</Td>
                   <Td>{user.full_name ?? 'N/A'}</Td>
                   <Td>{user.role}</Td>
+                  <Td>{user.barangay_name ?? 'N/A'}</Td>
                   <Td>
                     <div className="flex flex-wrap gap-1">
                       <Button

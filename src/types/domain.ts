@@ -13,6 +13,9 @@ export type Profile = {
   id: string
   full_name: string | null
   role: AppRole
+  barangay_id: string | null
+  avatar_url: string | null
+  email_verified: boolean
   created_at: string
   updated_at: string
 }

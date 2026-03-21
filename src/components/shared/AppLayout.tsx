@@ -1,23 +1,35 @@
 import { useState } from 'react'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
-import { QrCode, Users, ScanLine, ClipboardList, FileText, Shield, Settings, LogOut, FileSpreadsheet, Menu, X } from 'lucide-react'
+import { QrCode, Users, ScanLine, ClipboardList, FileText, Shield, Settings, LogOut, FileSpreadsheet, Menu, X, MapPinned, UserCircle2 } from 'lucide-react'
 
 import { Button } from '../ui/Button'
 import { supabase } from '../../lib/supabase/client'
+import { useAuth } from '../../hooks/useAuth'
+import type { AppRole } from '../../types/domain'
 
 const links = [
   { to: '/', label: 'Dashboard', icon: ClipboardList },
+  { to: '/profile', label: 'My Profile', icon: UserCircle2 },
   { to: '/beneficiaries', label: 'Beneficiaries', icon: Users },
   { to: '/beneficiaries/import', label: 'Import XLSX', icon: FileSpreadsheet },
   { to: '/scanner', label: 'Scanner', icon: ScanLine },
   { to: '/attendance/daily', label: 'Daily Attendance', icon: QrCode },
   { to: '/reports', label: 'Reports', icon: FileText },
-  { to: '/users', label: 'Users', icon: Shield },
+  { to: '/leaders-directory', label: 'Leaders Table', icon: Shield },
+  { to: '/barangay-map', label: 'Barangay Map', icon: MapPinned },
+  { to: '/users', label: 'Users', icon: Shield, allowedRoles: ['leader', 'developer'] as const },
   { to: '/settings', label: 'Settings', icon: Settings },
 ]
 
+const canAccess = (allowedRoles: readonly AppRole[] | undefined, role: AppRole | undefined): boolean => {
+  if (!allowedRoles) return true
+  if (!role) return false
+  return allowedRoles.includes(role)
+}
+
 export const AppLayout = () => {
   const navigate = useNavigate()
+  const { profile } = useAuth()
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const logout = async () => {
@@ -57,7 +69,7 @@ export const AppLayout = () => {
           }`}
         >
           <nav className="grid gap-1 md:gap-2">
-            {links.map((link) => {
+            {links.filter((link) => canAccess(link.allowedRoles, profile?.role)).map((link) => {
               const Icon = link.icon
               return (
                 <NavLink

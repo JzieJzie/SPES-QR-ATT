@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -67,6 +67,11 @@ export const LoginPage = () => {
             {formState.isSubmitting ? 'Signing in...' : 'Login'}
           </Button>
         </form>
+        <p className="text-sm">
+          <Link to="/register" className="underline underline-offset-4">
+            Create account
+          </Link>
+        </p>
       </Card>
     </main>
   )
