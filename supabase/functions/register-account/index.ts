@@ -13,6 +13,7 @@ type RegisterPayload = {
   role: 'leader' | 'co-leader'
   barangayName: string
   leaderAccessCode?: string
+  coLeaderAccessCode?: string
   avatarBase64?: string
   avatarMimeType?: string
   appUrl?: string
@@ -49,6 +50,7 @@ Deno.serve(async (request) => {
   const supabaseUrl = Deno.env.get('SUPABASE_URL')
   const smtpPassword = Deno.env.get('SMTP_APP_PASSWORD')
   const leaderSignupCode = Deno.env.get('LEADER_SIGNUP_CODE')
+  const coLeaderSignupCode = Deno.env.get('CO_LEADER_SIGNUP_CODE')
 
   if (!serviceRoleKey || !supabaseUrl || !smtpPassword) {
     return new Response(
@@ -136,15 +138,21 @@ Deno.serve(async (request) => {
   }
 
   if (payload.role === 'leader') {
-    if (!leaderSignupCode) {
-      return new Response(JSON.stringify({ error: 'Leader registration is currently unavailable.' }), {
+    const expectedLeaderCode = leaderSignupCode?.trim() || 'SPES_LEADER_2026'
+
+    if (!payload.leaderAccessCode || payload.leaderAccessCode.trim() !== expectedLeaderCode) {
+      return new Response(JSON.stringify({ error: 'Invalid leader access code.' }), {
         status: 403,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       })
     }
+  }
 
-    if (!payload.leaderAccessCode || payload.leaderAccessCode.trim() !== leaderSignupCode.trim()) {
-      return new Response(JSON.stringify({ error: 'Invalid leader access code.' }), {
+  if (payload.role === 'co-leader') {
+    const expectedCoLeaderCode = coLeaderSignupCode?.trim() || 'SPES_CO-LEADER_2026'
+
+    if (!payload.coLeaderAccessCode || payload.coLeaderAccessCode.trim() !== expectedCoLeaderCode) {
+      return new Response(JSON.stringify({ error: 'Invalid co-leader access code.' }), {
         status: 403,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       })

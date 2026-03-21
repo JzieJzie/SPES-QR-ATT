@@ -7,6 +7,7 @@ export type RegisterPayload = {
   role: 'leader' | 'co-leader'
   barangayName: string
   leaderAccessCode?: string
+  coLeaderAccessCode?: string
   avatarBase64?: string
   avatarMimeType?: string
 }

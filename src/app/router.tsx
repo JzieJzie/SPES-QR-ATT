@@ -2,10 +2,12 @@ import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 import { ProtectedRoute } from '../components/shared/ProtectedRoute'
 import { AppLayout } from '../components/shared/AppLayout'
+import { VisitorLayout } from '../components/shared/VisitorLayout'
 import { LoginPage } from '../pages/LoginPage'
 import { RegisterPage } from '../pages/RegisterPage'
 import { VerifyAccountPage } from '../pages/VerifyAccountPage'
 import { DashboardPage } from '../pages/DashboardPage'
+import { VisitorDashboardPage } from '../pages/VisitorDashboardPage'
 import { BeneficiariesPage } from '../pages/BeneficiariesPage'
 import { ImportMasterlistPage } from '../pages/ImportMasterlistPage'
 import { BeneficiaryDetailsPage } from '../pages/BeneficiaryDetailsPage'
@@ -18,6 +20,7 @@ import { SettingsPage } from '../pages/SettingsPage'
 import { ProfilePage } from '../pages/ProfilePage'
 import { LeadersDirectoryPage } from '../pages/LeadersDirectoryPage'
 import { BarangayMapPage } from '../pages/BarangayMapPage'
+import { VisitorBarangayMapPage } from '../pages/VisitorBarangayMapPage'
 
 export const router = createBrowserRouter([
   {
@@ -31,6 +34,15 @@ export const router = createBrowserRouter([
   {
     path: '/verify-account',
     element: <VerifyAccountPage />,
+  },
+  {
+    path: '/visitor',
+    element: <VisitorLayout />,
+    children: [
+      { index: true, element: <VisitorDashboardPage /> },
+      { path: 'barangay-map', element: <VisitorBarangayMapPage /> },
+      { path: '*', element: <Navigate to="/visitor" replace /> },
+    ],
   },
   {
     path: '/',

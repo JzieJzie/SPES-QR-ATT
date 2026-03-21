@@ -18,6 +18,7 @@ const registerSchema = z.object({
   role: z.enum(['leader', 'co-leader']),
   barangayName: z.string().min(1, 'Barangay is required'),
   leaderAccessCode: z.string().optional(),
+  coLeaderAccessCode: z.string().optional(),
   avatarFile: z.any().optional(),
 }).superRefine((values, context) => {
   if (values.role === 'leader' && !values.leaderAccessCode?.trim()) {
@@ -25,6 +26,14 @@ const registerSchema = z.object({
       code: z.ZodIssueCode.custom,
       path: ['leaderAccessCode'],
       message: 'Leader access code is required for Leader registration.',
+    })
+  }
+
+  if (values.role === 'co-leader' && !values.coLeaderAccessCode?.trim()) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['coLeaderAccessCode'],
+      message: 'Co-Leader access code is required for Co-Leader registration.',
     })
   }
 })
@@ -49,6 +58,7 @@ export const RegisterPage = () => {
       role: 'co-leader',
       barangayName: '',
       leaderAccessCode: '',
+      coLeaderAccessCode: '',
     },
   })
 
@@ -88,6 +98,7 @@ export const RegisterPage = () => {
       role: values.role,
       barangayName: values.barangayName,
       leaderAccessCode: values.leaderAccessCode,
+      coLeaderAccessCode: values.coLeaderAccessCode,
       avatarBase64,
       avatarMimeType,
     })
@@ -126,6 +137,15 @@ export const RegisterPage = () => {
               <Input type="password" autoComplete="off" {...register('leaderAccessCode')} />
               {formState.errors.leaderAccessCode ? (
                 <span className="text-xs font-semibold">{formState.errors.leaderAccessCode.message}</span>
+              ) : null}
+            </label>
+          ) : null}
+          {selectedRole === 'co-leader' ? (
+            <label className="grid gap-1 text-sm">
+              Co-Leader Access Code
+              <Input type="password" autoComplete="off" {...register('coLeaderAccessCode')} />
+              {formState.errors.coLeaderAccessCode ? (
+                <span className="text-xs font-semibold">{formState.errors.coLeaderAccessCode.message}</span>
               ) : null}
             </label>
           ) : null}

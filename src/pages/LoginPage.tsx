@@ -72,6 +72,15 @@ export const LoginPage = () => {
             Create account
           </Link>
         </p>
+        <p className="text-sm">
+          <button
+            type="button"
+            onClick={() => navigate('/visitor')}
+            className="underline underline-offset-4"
+          >
+            Continue as Visitor
+          </button>
+        </p>
       </Card>
     </main>
   )
