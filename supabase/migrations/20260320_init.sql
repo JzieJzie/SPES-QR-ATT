@@ -406,7 +406,7 @@ as $$
   select count(*)::integer
   from public.attendance_events
   where attendance_date = (now() at time zone 'Asia/Manila')::date
-    and status in ('accepted', 'duplicate', 'manual');
+    and status = 'accepted';
 $$;
 
 create or replace function public.set_user_role(p_user_id uuid, p_role text)
