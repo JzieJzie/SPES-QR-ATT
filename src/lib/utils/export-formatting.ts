@@ -13,7 +13,15 @@ export type MasterlistExportRow = {
   qrDownloadUrl: string
 }
 
-export const exportMasterlistXlsx = async (rows: MasterlistExportRow[]): Promise<void> => {
+type ExportMasterlistProgress = {
+  processed: number
+  total: number
+}
+
+export const exportMasterlistXlsx = async (
+  rows: MasterlistExportRow[],
+  onProgress?: (progress: ExportMasterlistProgress) => void,
+): Promise<void> => {
   const workbook = new ExcelJS.Workbook()
   const sheet = workbook.addWorksheet('Masterlist')
 
@@ -26,6 +34,8 @@ export const exportMasterlistXlsx = async (rows: MasterlistExportRow[]): Promise
     { header: 'QR', key: 'qr', width: 15 },
     { header: 'QR Download Link', key: 'qrDownloadLink', width: 40 },
   ]
+
+  onProgress?.({ processed: 0, total: rows.length })
 
   for (const [index, row] of rows.entries()) {
     const rowIndex = index + 2
@@ -59,6 +69,8 @@ export const exportMasterlistXlsx = async (rows: MasterlistExportRow[]): Promise
       })
       sheet.getRow(rowIndex).height = 56
     }
+
+    onProgress?.({ processed: index + 1, total: rows.length })
   }
 
   const data = await workbook.xlsx.writeBuffer()
