@@ -7,15 +7,23 @@ import { App } from './app/App'
 
 const GlobalHotkeys = () => {
   useEffect(() => {
+    const openDeveloperPage = () => {
+      window.location.assign('/dev/developer.html')
+    }
+
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === 'a') {
+      const isPrimaryShortcut = event.ctrlKey && event.shiftKey && event.code === 'KeyA'
+      const isFallbackShortcut = event.ctrlKey && event.altKey && event.code === 'KeyA'
+
+      if (isPrimaryShortcut || isFallbackShortcut) {
         event.preventDefault()
-        window.location.href = '/dev/developer.html'
+        openDeveloperPage()
       }
     }
 
-    window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
+    // Use capture so we receive the event as early as the browser allows.
+    document.addEventListener('keydown', onKeyDown, true)
+    return () => document.removeEventListener('keydown', onKeyDown, true)
   }, [])
 
   return null
