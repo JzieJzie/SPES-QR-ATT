@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Developer | SPES QR Attendance</title>
+    <style>
+      :root {
+        --bg: #f4f4f5;
+        --panel: #ffffff;
+        --text: #0a0a0a;
+        --muted: #52525b;
+        --line: #000000;
+        --shadow: 6px 6px 0 #000;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .top {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-bottom: 4px solid var(--line);
+        background: #fff;
+      }
+
+      .top-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 14px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .brand {
+        font-weight: 900;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .back {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--line);
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 700;
+        background: #fff;
+        height: 42px;
+        padding: 0 14px;
+      }
+
+      .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 18px 16px 30px;
+      }
+
+      .notice {
+        border: 2px solid var(--line);
+        background: #fff;
+        box-shadow: var(--shadow);
+        padding: 12px 14px;
+        margin-bottom: 16px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1.2fr 2fr;
+        gap: 16px;
+      }
+
+      .card {
+        border: 2px solid var(--line);
+        background: var(--panel);
+        box-shadow: var(--shadow);
+      }
+
+      .profile {
+        padding: 16px;
+      }
+
+      .name {
+        font-size: 28px;
+        margin: 4px 0 2px;
+        font-weight: 900;
+      }
+
+      .role {
+        margin: 0;
+        color: var(--muted);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 13px;
+        letter-spacing: 0.04em;
+      }
+
+      .section {
+        border-top: 2px solid var(--line);
+        padding: 12px 0 0;
+        margin-top: 14px;
+      }
+
+      .section h3 {
+        margin: 0 0 8px;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .section p,
+      .section li {
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .section ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .panel {
+        padding: 16px;
+      }
+
+      .panel h2 {
+        margin: 0 0 10px;
+        font-size: 22px;
+      }
+
+      .kpi {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin: 12px 0 16px;
+      }
+
+      .kpi .item {
+        border: 2px solid var(--line);
+        background: #fff;
+        padding: 10px;
+      }
+
+      .kpi .label {
+        margin: 0;
+        font-size: 11px;
+        text-transform: uppercase;
+        color: var(--muted);
+        letter-spacing: 0.05em;
+      }
+
+      .kpi .value {
+        margin: 5px 0 0;
+        font-size: 22px;
+        font-weight: 900;
+      }
+
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .chip {
+        border: 2px solid var(--line);
+        padding: 6px 10px;
+        font-size: 13px;
+        font-weight: 700;
+        background: #fff;
+      }
+
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="top">
+      <div class="top-inner">
+        <div class="brand">SPES QR Attendance | Developer</div>
+        <a class="back" href="/">Back to App</a>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <div class="notice">
+        Shortcut enabled: press Ctrl+Shift+A from anywhere in the app to open this page.
+      </div>
+
+      <div class="grid">
+        <section class="card profile" aria-label="Developer profile">
+          <p class="role">Developer Profile</p>
+          <h1 class="name">Diente, Jzienelo Amran A.</h1>
+          <p class="role">Third-year BSCS Student</p>
+
+          <div class="section">
+            <h3>Contact</h3>
+            <p>Phone: 0991-337-3802</p>
+            <p>Email: arambulo1jzieneloamran@gmail.com</p>
+            <p>Address: Tagapo, Santa Rosa, Laguna</p>
+          </div>
+
+          <div class="section">
+            <h3>Skills</h3>
+            <ul>
+              <li>Front-end Development</li>
+              <li>Leadership and Team Coordination</li>
+              <li>System Implementation</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="card panel" aria-label="System-aligned summary">
+          <h2>System-Aligned Developer Card</h2>
+          <p>
+            This page follows the same black-and-white brutal style used in the SPES QR Attendance
+            system and contains only one developer profile as requested.
+          </p>
+
+          <div class="kpi">
+            <div class="item">
+              <p class="label">Profiles Shown</p>
+              <p class="value">1</p>
+            </div>
+            <div class="item">
+              <p class="label">Role</p>
+              <p class="value">Leader</p>
+            </div>
+            <div class="item">
+              <p class="label">Mode</p>
+              <p class="value">Active</p>
+            </div>
+          </div>
+
+          <h3 style="margin: 0 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em;">
+            Focus Areas
+          </h3>
+          <div class="chips">
+            <span class="chip">Attendance Flow</span>
+            <span class="chip">QR Reliability</span>
+            <span class="chip">Role Access</span>
+            <span class="chip">Realtime Monitoring</span>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

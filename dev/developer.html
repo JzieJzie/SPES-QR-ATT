@@ -1,0 +1,320 @@
+﻿<!-- FILE: public\html\developer.html | Purpose: project source file -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer - MONO PH</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/developer-card.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Crimson+Text:ital@0;1&display=swap" rel="stylesheet">
+</head>
+<body class="dev-profile-page">
+    <!-- ========== Header ========== -->
+    <header>
+        <div class="top-bar">Developer Info (Secret)</div>
+        <nav class="navbar">
+            <div class="logo">
+                <a class="logo-mono" href="index.html">MONO</a>
+                <button id="theme-toggle" class="logo-ph" aria-label="Toggle theme">PH</button>
+            </div>
+            <a href="index.html" class="back-to-store" aria-label="Back to store"><i class="fas fa-arrow-left"></i> Back to Store</a>
+        </nav>
+        <nav class="profile-switcher" aria-label="Developer selection">
+            <div class="profile-stage">
+                <button class="profile-switch-btn profile-tile profile-card0 is-active" data-profile-id="jzienelo" type="button" aria-label="Select Jzienelo profile">
+                    <span class="profile-name">Jzienelo</span>
+                    <span class="profile-icons" aria-hidden="true">
+                        <i class="fab fa-github"></i>
+                        <i class="fab fa-linkedin"></i>
+                        <i class="fas fa-envelope"></i>
+                    </span>
+                </button>
+
+                <button class="profile-switch-btn profile-tile profile-card1" data-profile-id="member2" type="button" aria-label="Select Henrito Macabuhay profile">
+                    <span class="profile-name">Henrito Macabuhay</span>
+                    <span class="profile-icons" aria-hidden="true">
+                        <i class="fas fa-pen-ruler"></i>
+                        <i class="fas fa-file-lines"></i>
+                        <i class="fas fa-comments"></i>
+                    </span>
+                </button>
+
+                <button class="profile-switch-btn profile-tile profile-card2" data-profile-id="member3" type="button" aria-label="Select Jayson Brylle Besin profile">
+                    <span class="profile-name">Jayson Brylle Besin</span>
+                    <span class="profile-icons" aria-hidden="true">
+                        <i class="fas fa-server"></i>
+                        <i class="fas fa-vial-circle-check"></i>
+                        <i class="fas fa-bug"></i>
+                    </span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ========== Main Content (Developer Card) ========== -->
+    <main>
+        <div class="developer-layout">
+            <aside class="side-card side-card-left" aria-label="Profile highlights">
+                <h3>Quick Profile</h3>
+                <p id="quick-profile-text">BSCS student focused on front-end development and leadership in academic and community activities.</p>
+                <h4>Top Skills</h4>
+                <ul id="quick-skills-list">
+                    <li>Front-end Development</li>
+                    <li>Leadership</li>
+                    <li>Graphic Designing</li>
+                    <li>Management Skills</li>
+                </ul>
+            </aside>
+
+            <div class="developer-card-wrap">
+                <div class="card" data-state="#about">
+                <div class="card-header">
+                    <div id="card-cover-image" class="card-cover" style="background-image: url('../images/devpic1.jpg')"></div>
+                </div>
+                <div class="card-main">
+                    <div class="card-section is-active" id="about">
+                        <div class="card-content">
+                            <div class="name-section" aria-label="Selected profile name">
+                                <div class="card-subtitle">NAME</div>
+                                <h1 id="card-fullname-text" class="card-fullname">Diente, Jzienelo Amran A.</h1>
+                                <h2 id="card-jobtitle-text" class="card-jobtitle">Third-year BSCS Student</h2>
+                            </div>
+
+                            <div class="profile-section">
+                                <div class="card-subtitle">PROFILE</div>
+                            <p id="profile-summary-line1" class="card-desc">A Computer Science student in CITI Global College with experience in front-end development using HTML, CSS, and JavaScript, currently expanding knowledge in backend development and software systems. Demonstrates strong leadership and commitment to public service through active involvement in organizational initiatives and community programs.</p>
+                            <p id="profile-summary-line2" class="card-desc">Recognized for teamwork, initiative, and the ability to contribute effectively in collaborative and service-oriented environments.</p>
+                            <ul id="profile-position-list" class="card-position-points">
+                                <li class="card-item-desc">Front-end Development</li>
+                                <li class="card-item-desc">Backend Learning and Integration</li>
+                                <li class="card-item-desc">Leadership and Public Service Involvement</li>
+                            </ul>
+                            </div>
+
+                            <div class="card-subtitle">SKILLS</div>
+                            <ul id="skills-list" class="card-list">
+                                <li>Management Skills</li>
+                                <li>Leadership</li>
+                                <li>Front-end Development</li>
+                                <li>Graphic Designing</li>
+                                <li>Cooking</li>
+                            </ul>
+
+                            <div class="card-subtitle">LANGUAGE</div>
+                            <ul id="language-list" class="card-list">
+                                <li>Tagalog</li>
+                                <li>English</li>
+                            </ul>
+                        </div>
+                        <div class="card-social">
+                            <a id="social-facebook" href="https://facebook.com/jzienelo.amran.diente.2024" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.997 3.985h2.191V.169C17.81.117 16.51 0 14.996 0c-3.159 0-5.323 1.987-5.323 5.639V9H6.187v4.266h3.486V24h4.274V13.267h3.345l.531-4.266h-3.877V6.062c.001-1.233.333-2.077 2.051-2.077z" /></svg></a>
+                            <a id="social-github" href="https://github.com/JzieJzie" target="_blank" rel="noopener" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2.16c-3.2.7-3.88-1.54-3.88-1.54-.52-1.32-1.28-1.67-1.28-1.67-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.56-2.55-.29-5.23-1.28-5.23-5.67 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.14 1.17a10.84 10.84 0 0 1 5.72 0c2.18-1.48 3.14-1.17 3.14-1.17.62 1.59.23 2.76.12 3.05.73.8 1.18 1.82 1.18 3.07 0 4.4-2.69 5.38-5.25 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
+                            <a id="social-instagram" href="https://instagram.com/ddd.j_a.v" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M301 256c0 24.852-20.148 45-45 45s-45-20.148-45-45 20.148-45 45-45 45 20.148 45 45zm0 0" /><path d="M332 120H180c-33.086 0-60 26.914-60 60v152c0 33.086 26.914 60 60 60h152c33.086 0 60-26.914 60-60V180c0-33.086-26.914-60-60-60zm-76 211c-41.355 0-75-33.645-75-75s33.645-75 75-75 75 33.645 75 75-33.645 75-75 75zm86-146c-8.285 0-15-6.715-15-15s6.715-15 15-15 15 6.715 15 15-6.715 15-15 15zm0 0" /><path d="M377 0H135C60.562 0 0 60.563 0 135v242c0 74.438 60.563 135 135 135h242c74.438 0 135-60.563 135-135V135C512 60.562 451.437 0 377 0zm45 332c0 49.625-40.375 90-90 90H180c-49.625 0-90-40.375-90-90V180c0-49.625 40.375-90 90-90h152c49.625 0 90 40.375 90 90zm0 0" /></svg></a>
+                            <a id="social-linkedin" href="https://www.linkedin.com/in/jzienelo-amran-a-diente-53979a344" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.994 24v-.001H24v-8.802c0-4.306-.927-7.623-5.961-7.623-2.42 0-4.044 1.328-4.707 2.587h-.07V7.976H8.489v16.023h4.97v-7.934c0-2.089.396-4.109 2.983-4.109 2.549 0 2.587 2.384 2.587 4.243V24zM.396 7.977h4.976V24H.396zM2.882 0C1.291 0 0 1.291 0 2.882s1.291 2.909 2.882 2.909 2.882-1.318 2.882-2.909A2.884 2.884 0 002.882 0z" /></svg></a>
+                            <a id="social-email" href="mailto:arambulo1jzieneloamran@gmail.com" aria-label="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 4h20a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zm10 8.8L3.74 6.5A1 1 0 0 0 3 6h18a1 1 0 0 0-.74.5L12 12.8z"/></svg></a>
+                        </div>
+                    </div>
+
+                    <div class="card-section" id="education">
+                        <div class="card-content">
+                            <div class="card-subtitle">EDUCATION</div>
+                            <div id="education-timeline" class="card-timeline">
+                                <div class="card-item" data-year="2023">
+                                    <div class="card-item-title">CITI Global College - <span>Cabuyao Campus</span></div>
+                                    <div class="card-item-desc">VCB Building, 107 Limcaoco Street, Barangay Poblacion Uno, City of Cabuyao, Laguna</div>
+                                    <div class="card-item-desc">July 2023 - Present</div>
+                                    <div class="card-item-desc">Currently taking Bachelor of Science in Computer Science</div>
+                                </div>
+                                <div class="card-item" data-year="2021">
+                                    <div class="card-item-title">CITI Global College - <span>Sta. Rosa Campus</span></div>
+                                    <div class="card-item-desc">2F Henry Harvey Building, Canicosa Avenue, Brgy. Balibago, City of Santa Rosa, Laguna</div>
+                                    <div class="card-item-desc">August 2021 - May 2023</div>
+                                    <div class="card-item-desc">Accountancy, Business, and Management Strand - Graduated with honors</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-section" id="experience">
+                        <div class="card-content">
+                            <div class="card-subtitle">EXPERIENCE</div>
+                            <div id="experience-timeline" class="card-timeline">
+                                <div class="card-item" data-year="2022">
+                                    <div class="card-item-title">City Government of Santa Rosa - <span>SPES</span></div>
+                                    <div class="card-item-desc">July 2022 - August 2022</div>
+                                    <ul class="card-position-points">
+                                        <li class="card-item-desc">City Engineering Office helper</li>
+                                        <li class="card-item-desc">Barangay Tagapo Health Center helper</li>
+                                        <li class="card-item-desc">Barangay Tagapo Information Desk attendant</li>
+                                    </ul>
+                                </div>
+                                <div class="card-item" data-year="2024">
+                                    <div class="card-item-title">City Government of Santa Rosa - <span>SPES</span></div>
+                                    <div class="card-item-desc">June 2024 - July 2024</div>
+                                    <ul class="card-position-points">
+                                        <li class="card-item-desc">Barangay Tagapo SK Office intern</li>
+                                    </ul>
+                                </div>
+                                <div class="card-item" data-year="2025">
+                                    <div class="card-item-title">City Government of Santa Rosa - <span>SPES</span></div>
+                                    <div class="card-item-desc">April 2025 - May 2025</div>
+                                    <ul class="card-position-points">
+                                        <li class="card-item-desc">Head/Leader of Barangay Tagapo SPES</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-section" id="leadership">
+                        <div class="card-content">
+                            <div class="card-subtitle">LEADERSHIP AND ACTIVITIES</div>
+                            <div id="leadership-timeline" class="card-timeline">
+                                <div class="card-item" data-year="2024">
+                                    <div class="card-item-title">CGCians Supreme Student Council</div>
+                                    <div class="card-item-desc">CITI Global College - Cabuyao Campus</div>
+                                    <div class="card-item-desc">January 2024 to May 2025</div>
+                                    <ul class="card-position-points">
+                                        <li class="card-item-desc">Student Leader</li>
+                                        <li class="card-item-desc">Seminar Facilitator</li>
+                                        <li class="card-item-desc">Assistant Media Committee (First term)</li>
+                                        <li class="card-item-desc">Public Information Officer (Second term)</li>
+                                    </ul>
+                                </div>
+
+                                <div class="card-item" data-year="2023">
+                                    <div class="card-item-title">Association of Computer Science and Computer Technology</div>
+                                    <div class="card-item-desc">CITI Global College - Cabuyao Campus</div>
+                                    <div class="card-item-desc">October 2023 to April 2024</div>
+                                    <ul class="card-position-points">
+                                        <li class="card-item-desc">Student Leader</li>
+                                        <li class="card-item-desc">Graphic Artist</li>
+                                        <li class="card-item-desc">Seminar Facilitator</li>
+                                        <li class="card-item-desc">First-year Representative</li>
+                                    </ul>
+                                </div>
+
+                                <div class="card-item" data-year="2024">
+                                    <div class="card-item-title">Nurturing Young Minds: 3-day Outreach Program</div>
+                                    <div class="card-item-desc">CITI Global College - Cabuyao Campus</div>
+                                    <div class="card-item-desc">December 2024</div>
+                                    <ul class="card-position-points">
+                                        <li class="card-item-desc">Volunteer</li>
+                                        <li class="card-item-desc">Proponent</li>
+                                    </ul>
+                                </div>
+
+                                <div class="card-item" data-year="2024">
+                                    <div class="card-item-title">CGC 13th Founding Anniversary</div>
+                                    <div class="card-item-desc">CITI Global College</div>
+                                    <div class="card-item-desc">December 2024</div>
+                                    <ul class="card-position-points">
+                                        <li class="card-item-desc">Event Committee</li>
+                                        <li class="card-item-desc">In-charge of tabulation</li>
+                                    </ul>
+                                </div>
+
+                                <div class="card-item" data-year="2025">
+                                    <div class="card-item-title">CGC 14th Founding Anniversary</div>
+                                    <div class="card-item-desc">CITI Global College</div>
+                                    <div class="card-item-desc">November 2025</div>
+                                    <ul class="card-position-points">
+                                        <li class="card-item-desc">Director</li>
+                                        <li class="card-item-desc">Committee Leader</li>
+                                        <li class="card-item-desc">In-charge of program flow</li>
+                                        <li class="card-item-desc">All-rounder</li>
+                                    </ul>
+                                </div>
+
+                                <div class="card-item" data-year="2025">
+                                    <div class="card-item-title">Linggo ng Kabataan 2025</div>
+                                    <div class="card-item-desc">City Government of Santa Rosa</div>
+                                    <div class="card-item-desc">August 2025</div>
+                                    <ul class="card-position-points">
+                                        <li class="card-item-desc">Journalist</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-section" id="contact">
+                        <div class="card-content">
+                            <div class="card-subtitle">CONTACT</div>
+                            <div class="card-contact-wrapper">
+                                <div class="card-contact">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                                        <circle cx="12" cy="10" r="3" /></svg>
+                                    <span id="contact-city">Santa Rosa, Laguna, Philippines</span>
+                                </div>
+                                <div class="card-contact">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" /></svg>
+                                    <span id="contact-phone">0991-337-3802</span>
+                                </div>
+                                <div class="card-contact">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                        <path d="M22 6l-10 7L2 6" /></svg>
+                                    <span id="contact-email">arambulo1jzieneloamran@gmail.com</span>
+                                </div>
+                                <div class="card-contact">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                                        <circle cx="12" cy="10" r="3" /></svg>
+                                    <span id="contact-address">211 Purok 4, Barangay Tagapo, City of Santa Rosa, Laguna</span>
+                                </div>
+                                <div class="card-contact">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M8 17l4 4 4-4" />
+                                        <path d="M12 12v9" />
+                                        <path d="M20.88 18.09A5 5 0 0018 9h-1.26A8 8 0 103 16.29" /></svg>
+                                    <span id="contact-github">github.com/JzieJzie</span>
+                                </div>
+                                <button class="contact-me" type="button"><a id="work-together-email" href="mailto:arambulo1jzieneloamran@gmail.com">WORK TOGETHER</a></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-buttons">
+                        <button data-section="#about" class="is-active" type="button">ABOUT</button>
+                        <button data-section="#education" type="button">EDUCATION</button>
+                        <button data-section="#experience" type="button">EXPERIENCE</button>
+                        <button data-section="#leadership" type="button">LEADERSHIP</button>
+                        <button data-section="#contact" type="button">CONTACT</button>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="side-card side-card-right" aria-label="Contact highlights">
+                <h3>Contact</h3>
+                <p><strong>Phone:</strong> <span id="right-phone">0991-337-3802</span></p>
+                <p><strong>Email:</strong> <span id="right-email">arambulo1jzieneloamran@gmail.com</span></p>
+                <p><strong>Address:</strong> <span id="right-address">211 Purok 4, Barangay Tagapo, City of Santa Rosa, Laguna</span></p>
+                <h4>Links</h4>
+                <ul>
+                    <li><a id="right-github" href="https://github.com/JzieJzie" target="_blank" rel="noopener">GitHub</a></li>
+                    <li><a id="right-linkedin" href="https://www.linkedin.com/in/jzienelo-amran-a-diente-53979a344" target="_blank" rel="noopener">LinkedIn</a></li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+
+    <!-- ========== Footer ========== -->
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2026 MONO PH.</p>
+        </div>
+    </footer>
+
+    <!-- ========== Scripts ========== -->
+    <script src="../js/script.js"></script>
+    <script src="../js/developer-card.js"></script>
+    <script src="../js/developer-profiles.js"></script>
+</body>
+</html>
+
