@@ -10,6 +10,7 @@ export type MasterlistExportRow = {
   middleName: string
   barangay: string
   qrImageUrl: string
+  qrDownloadUrl: string
 }
 
 export const exportMasterlistXlsx = async (rows: MasterlistExportRow[]): Promise<void> => {
@@ -23,6 +24,7 @@ export const exportMasterlistXlsx = async (rows: MasterlistExportRow[]): Promise
     { header: 'middleName', key: 'middleName', width: 18 },
     { header: 'Barangay', key: 'barangay', width: 22 },
     { header: 'QR', key: 'qr', width: 15 },
+    { header: 'QR Download Link', key: 'qrDownloadLink', width: 40 },
   ]
 
   for (const [index, row] of rows.entries()) {
@@ -34,20 +36,29 @@ export const exportMasterlistXlsx = async (rows: MasterlistExportRow[]): Promise
       middleName: row.middleName,
       barangay: row.barangay,
       qr: '',
+      qrDownloadLink: row.qrDownloadUrl ? 'Download QR' : 'N/A',
     })
 
-    const response = await fetch(row.qrImageUrl)
-    const imageBuffer = await response.arrayBuffer()
-    const imageId = workbook.addImage({
-      buffer: imageBuffer,
-      extension: 'png',
-    })
+    const linkCell = sheet.getCell(rowIndex, 7)
+    if (row.qrDownloadUrl) {
+      linkCell.value = { text: 'Download QR', hyperlink: row.qrDownloadUrl }
+      linkCell.font = { color: { argb: 'FF0563C1' }, underline: true }
+    }
 
-    sheet.addImage(imageId, {
-      tl: { col: 5.1, row: rowIndex - 0.85 },
-      ext: { width: 68, height: 68 },
-    })
-    sheet.getRow(rowIndex).height = 56
+    if (row.qrImageUrl) {
+      const response = await fetch(row.qrImageUrl)
+      const imageBuffer = await response.arrayBuffer()
+      const imageId = workbook.addImage({
+        buffer: imageBuffer,
+        extension: 'png',
+      })
+
+      sheet.addImage(imageId, {
+        tl: { col: 5.1, row: rowIndex - 0.85 },
+        ext: { width: 68, height: 68 },
+      })
+      sheet.getRow(rowIndex).height = 56
+    }
   }
 
   const data = await workbook.xlsx.writeBuffer()

@@ -68,11 +68,13 @@ export const ReportsPage = () => {
             .maybeSingle()
 
           let qrImageUrl = ''
+          let qrDownloadUrl = ''
           if (qr?.qr_image_path) {
             const signed = await supabase.storage
               .from('qr-codes')
-              .createSignedUrl(qr.qr_image_path, 120)
+              .createSignedUrl(qr.qr_image_path, 60 * 60 * 24 * 7)
             qrImageUrl = signed.data?.signedUrl ?? ''
+            qrDownloadUrl = signed.data?.signedUrl ?? ''
           }
 
           return {
@@ -82,6 +84,7 @@ export const ReportsPage = () => {
             middleName: beneficiary.middle_name ?? '',
             barangay: beneficiary.barangays.name,
             qrImageUrl,
+            qrDownloadUrl,
           }
         }),
       )
