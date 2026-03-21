@@ -16,7 +16,7 @@ const summarizeFailure = (message: string): string => {
   const normalized = message.toLowerCase()
 
   if (normalized.includes('row-level security') || normalized.includes('permission denied')) {
-    return 'Import blocked by database permissions. Ensure your account has admin role in profiles.'
+    return 'Import blocked by database permissions. Ensure your account has leader or developer role in profiles.'
   }
 
   if (normalized.includes('relation') && normalized.includes('does not exist')) {
@@ -60,6 +60,58 @@ const getOrCreateBarangayId = async (name: string): Promise<string> => {
   return data.id
 }
 
+const getOrCreateBeneficiary = async (
+  row: ImportRow,
+  barangayId: string,
+): Promise<{ id: string; beneficiary_id: string }> => {
+  const normalizedLastName = row.lastName.trim().toUpperCase()
+  const normalizedFirstName = row.firstName.trim().toUpperCase()
+  const normalizedMiddleName = row.middleName.trim().toUpperCase() || null
+
+  let existingQuery = supabase
+    .from('beneficiaries')
+    .select('id, beneficiary_id')
+    .eq('last_name', normalizedLastName)
+    .eq('first_name', normalizedFirstName)
+    .eq('barangay_id', barangayId)
+
+  if (normalizedMiddleName) {
+    existingQuery = existingQuery.eq('middle_name', normalizedMiddleName)
+  } else {
+    existingQuery = existingQuery.is('middle_name', null)
+  }
+
+  const { data: existing, error: existingError } = await existingQuery.maybeSingle()
+
+  if (existingError) throw existingError
+  if (existing) {
+    const { error: restoreError } = await supabase
+      .from('beneficiaries')
+      .update({ is_archived: false })
+      .eq('id', existing.id)
+
+    if (restoreError) throw restoreError
+    return existing
+  }
+
+  const { data: created, error: createError } = await supabase
+    .from('beneficiaries')
+    .insert({
+      last_name: normalizedLastName,
+      first_name: normalizedFirstName,
+      middle_name: normalizedMiddleName,
+      barangay_id: barangayId,
+    })
+    .select('id, beneficiary_id')
+    .single()
+
+  if (createError || !created) {
+    throw createError ?? new Error('Failed to create beneficiary')
+  }
+
+  return created
+}
+
 export const importMasterlistRows = async (
   fileName: string,
   fileType: string,
@@ -71,21 +123,7 @@ export const importMasterlistRows = async (
   for (const [index, row] of rows.entries()) {
     try {
       const barangayId = await getOrCreateBarangayId(row.Barangay)
-
-      const { data: beneficiary, error: beneficiaryError } = await supabase
-        .from('beneficiaries')
-        .insert({
-          last_name: row.lastName.trim().toUpperCase(),
-          first_name: row.firstName.trim().toUpperCase(),
-          middle_name: row.middleName.trim().toUpperCase() || null,
-          barangay_id: barangayId,
-        })
-        .select('id, beneficiary_id')
-        .single()
-
-      if (beneficiaryError || !beneficiary) {
-        throw beneficiaryError ?? new Error('Failed to create beneficiary')
-      }
+      const beneficiary = await getOrCreateBeneficiary(row, barangayId)
 
       const qrBlob = await toPngBlob(beneficiary.beneficiary_id)
       const qrPath = `${beneficiary.beneficiary_id}.png`
@@ -96,11 +134,16 @@ export const importMasterlistRows = async (
 
       if (uploadError) throw uploadError
 
-      const { error: qrError } = await supabase.from('beneficiary_qr_codes').insert({
-        beneficiary_ref: beneficiary.id,
-        qr_value: beneficiary.beneficiary_id,
-        qr_image_path: qrPath,
-      })
+      const { error: qrError } = await supabase.from('beneficiary_qr_codes').upsert(
+        {
+          beneficiary_ref: beneficiary.id,
+          qr_value: beneficiary.beneficiary_id,
+          qr_image_path: qrPath,
+        },
+        {
+          onConflict: 'beneficiary_ref',
+        },
+      )
 
       if (qrError) throw qrError
 

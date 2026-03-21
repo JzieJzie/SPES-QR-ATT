@@ -26,7 +26,7 @@ export const ProtectedRoute = ({ allowedRoles, children }: ProtectedRouteProps) 
         <div className="max-w-xl border-2 border-black bg-white p-4 shadow-brutal">
           <h1 className="mb-2 text-lg font-heading uppercase">Account Setup Required</h1>
           <p className="text-sm">
-            {authError ?? 'Your account does not have a profile role yet. Please contact your admin.'}
+            {authError ?? 'Your account does not have a profile role yet. Please contact a leader.'}
           </p>
         </div>
       </div>

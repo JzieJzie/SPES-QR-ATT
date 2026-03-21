@@ -40,7 +40,7 @@ export const useAuth = (): AuthState => {
       const authError = profileError
         ? 'Profile access failed. Ensure database migrations and RLS setup are applied.'
         : !profile
-          ? 'No profile found for this account. Ask admin to provision your role.'
+          ? 'No profile found for this account. Ask a leader to provision your role.'
           : null
 
       if (!mounted) return

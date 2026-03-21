@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/',
-    element: <ProtectedRoute allowedRoles={['admin', 'scanner']} />,
+    element: <ProtectedRoute allowedRoles={['leader', 'co-leader', 'developer']} />,
     children: [
       {
         element: <AppLayout />,
@@ -37,7 +37,7 @@ export const router = createBrowserRouter([
           {
             path: 'users',
             element: (
-              <ProtectedRoute allowedRoles={['admin']}>
+              <ProtectedRoute allowedRoles={['leader', 'developer']}>
                 <UserManagementPage />
               </ProtectedRoute>
             ),

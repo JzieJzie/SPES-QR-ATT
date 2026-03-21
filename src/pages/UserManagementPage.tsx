@@ -5,6 +5,8 @@ import { Table, Td, Th } from '../components/ui/Table'
 import { Button } from '../components/ui/Button'
 import { fetchUsers, setUserRole } from '../features/users/api'
 
+type ManageableRole = 'leader' | 'co-leader' | 'developer'
+
 export const UserManagementPage = () => {
   const queryClient = useQueryClient()
 
@@ -14,7 +16,7 @@ export const UserManagementPage = () => {
   })
 
   const mutation = useMutation({
-    mutationFn: ({ userId, role }: { userId: string; role: 'admin' | 'scanner' }) =>
+    mutationFn: ({ userId, role }: { userId: string; role: ManageableRole }) =>
       setUserRole(userId, role),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['users'] })
@@ -50,15 +52,21 @@ export const UserManagementPage = () => {
                   <div className="flex gap-2">
                     <Button
                       variant="outline"
-                      onClick={() => void mutation.mutateAsync({ userId: user.id, role: 'admin' })}
+                      onClick={() => void mutation.mutateAsync({ userId: user.id, role: 'leader' })}
                     >
-                      Make Admin
+                      Make Leader
                     </Button>
                     <Button
                       variant="outline"
-                      onClick={() => void mutation.mutateAsync({ userId: user.id, role: 'scanner' })}
+                      onClick={() => void mutation.mutateAsync({ userId: user.id, role: 'co-leader' })}
                     >
-                      Make Scanner
+                      Make Co-Leader
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => void mutation.mutateAsync({ userId: user.id, role: 'developer' })}
+                    >
+                      Make Developer
                     </Button>
                   </div>
                 </Td>

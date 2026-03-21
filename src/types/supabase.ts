@@ -13,20 +13,20 @@ export interface Database {
         Row: {
           id: string
           full_name: string | null
-          role: 'admin' | 'scanner'
+          role: 'leader' | 'co-leader' | 'developer'
           created_at: string
           updated_at: string
         }
         Insert: {
           id: string
           full_name?: string | null
-          role?: 'admin' | 'scanner'
+          role?: 'leader' | 'co-leader' | 'developer'
           created_at?: string
           updated_at?: string
         }
         Update: {
           full_name?: string | null
-          role?: 'admin' | 'scanner'
+          role?: 'leader' | 'co-leader' | 'developer'
           updated_at?: string
         }
       }
@@ -257,7 +257,7 @@ export interface Database {
       set_user_role: {
         Args: {
           p_user_id: string
-          p_role: 'admin' | 'scanner'
+          p_role: 'leader' | 'co-leader' | 'developer'
         }
         Returns: void
       }

@@ -1,4 +1,4 @@
-export type AppRole = 'admin' | 'scanner'
+export type AppRole = 'leader' | 'co-leader' | 'developer'
 
 export type EventType = 'AM_IN' | 'AM_OUT' | 'PM_IN' | 'PM_OUT'
 export type SessionName = 'MORNING' | 'AFTERNOON'
