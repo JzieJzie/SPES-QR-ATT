@@ -94,6 +94,21 @@
         padding: 16px;
       }
 
+      .avatar-wrap {
+        border: 2px solid var(--line);
+        background: #fff;
+        padding: 8px;
+        margin-bottom: 12px;
+      }
+
+      .avatar {
+        width: 100%;
+        max-height: 320px;
+        object-fit: cover;
+        display: block;
+        border: 2px solid var(--line);
+      }
+
       .name {
         font-size: 28px;
         margin: 4px 0 2px;
@@ -175,6 +190,22 @@
         gap: 8px;
       }
 
+      .timeline {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .timeline li {
+        margin-bottom: 10px;
+      }
+
+      .timeline .meta {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 2px;
+      }
+
       .chip {
         border: 2px solid var(--line);
         padding: 6px 10px;
@@ -206,9 +237,30 @@
 
       <div class="grid">
         <section class="card profile" aria-label="Developer profile">
+          <div class="avatar-wrap">
+            <img
+              class="avatar"
+              src="/dev/images/devpic1.jpg"
+              alt="Jzienelo profile picture"
+              onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=Jzienelo+Amran+Diente&size=640&background=111111&color=ffffff&bold=true';"
+            />
+          </div>
           <p class="role">Developer Profile</p>
           <h1 class="name">Diente, Jzienelo Amran A.</h1>
           <p class="role">Third-year BSCS Student</p>
+
+          <div class="section">
+            <h3>Profile</h3>
+            <p>
+              A Computer Science student in CITI Global College with experience in front-end
+              development using HTML, CSS, and JavaScript, currently expanding knowledge in backend
+              development and software systems.
+            </p>
+            <p>
+              Demonstrates strong leadership and commitment to public service through active
+              involvement in organizational initiatives and community programs.
+            </p>
+          </div>
 
           <div class="section">
             <h3>Contact</h3>
@@ -220,18 +272,27 @@
           <div class="section">
             <h3>Skills</h3>
             <ul>
+              <li>Management Skills</li>
+              <li>Leadership</li>
               <li>Front-end Development</li>
-              <li>Leadership and Team Coordination</li>
-              <li>System Implementation</li>
+              <li>Graphic Designing</li>
+              <li>Backend Learning and Integration</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <h3>Language</h3>
+            <ul>
+              <li>Tagalog</li>
+              <li>English</li>
             </ul>
           </div>
         </section>
 
         <section class="card panel" aria-label="System-aligned summary">
-          <h2>System-Aligned Developer Card</h2>
+          <h2>Jzienelo Details</h2>
           <p>
-            This page follows the same black-and-white brutal style used in the SPES QR Attendance
-            system and contains only one developer profile as requested.
+            This page uses the same system style and only shows one developer profile.
           </p>
 
           <div class="kpi">
@@ -249,14 +310,53 @@
             </div>
           </div>
 
-          <h3 style="margin: 0 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em;">
-            Focus Areas
-          </h3>
-          <div class="chips">
-            <span class="chip">Attendance Flow</span>
-            <span class="chip">QR Reliability</span>
-            <span class="chip">Role Access</span>
-            <span class="chip">Realtime Monitoring</span>
+          <div class="section" style="margin-top: 0; border-top: 0; padding-top: 0;">
+            <h3>Education</h3>
+            <ul class="timeline">
+              <li>
+                <strong>CITI Global College - Cabuyao Campus</strong>
+                <span class="meta">July 2023 - Present</span>
+                <span class="meta">Bachelor of Science in Computer Science</span>
+              </li>
+              <li>
+                <strong>CITI Global College - Sta. Rosa Campus</strong>
+                <span class="meta">August 2021 - May 2023</span>
+                <span class="meta">ABM Strand - Graduated with honors</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <h3>Experience</h3>
+            <ul class="timeline">
+              <li>
+                <strong>City Government of Santa Rosa - SPES</strong>
+                <span class="meta">July 2022 - August 2022</span>
+                <span class="meta">Engineering Office helper, Health Center helper, Information Desk attendant</span>
+              </li>
+              <li>
+                <strong>City Government of Santa Rosa - SPES</strong>
+                <span class="meta">June 2024 - July 2024</span>
+                <span class="meta">Barangay Tagapo SK Office intern</span>
+              </li>
+              <li>
+                <strong>City Government of Santa Rosa - SPES</strong>
+                <span class="meta">April 2025 - May 2025</span>
+                <span class="meta">Head/Leader of Barangay Tagapo SPES</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <h3>Leadership and Activities</h3>
+            <div class="chips">
+              <span class="chip">Student Leader</span>
+              <span class="chip">Public Information Officer</span>
+              <span class="chip">Graphic Artist</span>
+              <span class="chip">Seminar Facilitator</span>
+              <span class="chip">Event Committee</span>
+              <span class="chip">Journalist</span>
+            </div>
           </div>
         </section>
       </div>
