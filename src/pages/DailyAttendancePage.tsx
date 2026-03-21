@@ -20,42 +20,43 @@ export const DailyAttendancePage = () => {
   const rows = useMemo(() => data, [data])
 
   return (
-    <Card title="Daily Attendance" className="space-y-4">
-      <label className="grid gap-1 text-sm max-w-xs">
+    <Card title="Daily Attendance" className="space-y-3 md:space-y-4">
+      <label className="grid gap-1 text-xs md:text-sm max-w-xs">
         Date
         <Input type="date" value={date} onChange={(event) => setDate(event.target.value)} />
       </label>
 
-      <Table>
-        <thead>
-          <tr>
-            <Th>Beneficiary</Th>
-            <Th>Barangay</Th>
-            <Th>AM In</Th>
-            <Th>AM Out</Th>
-            <Th>PM In</Th>
-            <Th>PM Out</Th>
-            <Th>Flags</Th>
-          </tr>
-        </thead>
-        <tbody>
-          {isLoading ? (
+      <div className="overflow-x-auto -mx-2 md:mx-0">
+        <Table>
+          <thead>
             <tr>
-              <Td>Loading...</Td>
-              <Td />
-              <Td />
-              <Td />
-              <Td />
-              <Td />
-              <Td />
+              <Th>Beneficiary</Th>
+              <Th>Barangay</Th>
+              <Th>AM In</Th>
+              <Th>AM Out</Th>
+              <Th>PM In</Th>
+              <Th>PM Out</Th>
+              <Th>Flags</Th>
             </tr>
-          ) : (
-            rows.map((row) => (
-              <tr key={row.id}>
-                <Td>{`${row.beneficiaries.beneficiary_id} - ${row.beneficiaries.last_name}, ${row.beneficiaries.first_name}`}</Td>
-                <Td>{row.beneficiaries.barangays.name}</Td>
-                <Td>{row.am_time_in ? formatReadableTime(row.am_time_in) : '-'}</Td>
-                <Td>{row.am_time_out ? formatReadableTime(row.am_time_out) : '-'}</Td>
+          </thead>
+          <tbody>
+            {isLoading ? (
+              <tr>
+                <Td>Loading...</Td>
+                <Td />
+                <Td />
+                <Td />
+                <Td />
+                <Td />
+                <Td />
+              </tr>
+            ) : (
+              rows.map((row) => (
+                <tr key={row.id}>
+                  <Td>{`${row.beneficiaries.beneficiary_id} - ${row.beneficiaries.last_name}, ${row.beneficiaries.first_name}`}</Td>
+                  <Td>{row.beneficiaries.barangays.name}</Td>
+                  <Td>{row.am_time_in ? formatReadableTime(row.am_time_in) : '-'}</Td>
+                  <Td>{row.am_time_out ? formatReadableTime(row.am_time_out) : '-'}</Td>
                 <Td>{row.pm_time_in ? formatReadableTime(row.pm_time_in) : '-'}</Td>
                 <Td>{row.pm_time_out ? formatReadableTime(row.pm_time_out) : '-'}</Td>
                 <Td>
@@ -73,6 +74,7 @@ export const DailyAttendancePage = () => {
           )}
         </tbody>
       </Table>
+      </div>
     </Card>
   )
 }

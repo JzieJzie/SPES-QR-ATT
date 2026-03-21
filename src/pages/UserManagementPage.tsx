@@ -25,56 +25,61 @@ export const UserManagementPage = () => {
 
   return (
     <Card title="User Management">
-      <Table>
-        <thead>
-          <tr>
-            <Th>User ID</Th>
-            <Th>Full Name</Th>
-            <Th>Role</Th>
-            <Th>Action</Th>
-          </tr>
-        </thead>
-        <tbody>
-          {isLoading ? (
+      <div className="overflow-x-auto -mx-2 md:mx-0">
+        <Table>
+          <thead>
             <tr>
-              <Td>Loading...</Td>
-              <Td />
-              <Td />
-              <Td />
+              <Th>User ID</Th>
+              <Th>Full Name</Th>
+              <Th>Role</Th>
+              <Th>Action</Th>
             </tr>
-          ) : (
-            data.map((user) => (
-              <tr key={user.id}>
-                <Td>{user.id}</Td>
-                <Td>{user.full_name ?? 'N/A'}</Td>
-                <Td>{user.role}</Td>
-                <Td>
-                  <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      onClick={() => void mutation.mutateAsync({ userId: user.id, role: 'leader' })}
-                    >
-                      Make Leader
-                    </Button>
-                    <Button
-                      variant="outline"
-                      onClick={() => void mutation.mutateAsync({ userId: user.id, role: 'co-leader' })}
-                    >
-                      Make Co-Leader
-                    </Button>
-                    <Button
-                      variant="outline"
-                      onClick={() => void mutation.mutateAsync({ userId: user.id, role: 'developer' })}
-                    >
-                      Make Developer
-                    </Button>
-                  </div>
-                </Td>
+          </thead>
+          <tbody>
+            {isLoading ? (
+              <tr>
+                <Td>Loading...</Td>
+                <Td />
+                <Td />
+                <Td />
               </tr>
-            ))
-          )}
-        </tbody>
-      </Table>
+            ) : (
+              data.map((user) => (
+                <tr key={user.id}>
+                  <Td>{user.id}</Td>
+                  <Td>{user.full_name ?? 'N/A'}</Td>
+                  <Td>{user.role}</Td>
+                  <Td>
+                    <div className="flex flex-wrap gap-1">
+                      <Button
+                        variant="outline"
+                        onClick={() => void mutation.mutateAsync({ userId: user.id, role: 'leader' })}
+                        size="md"
+                      >
+                        Leader
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => void mutation.mutateAsync({ userId: user.id, role: 'co-leader' })}
+                        size="md"
+                      >
+                        Co-Leader
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => void mutation.mutateAsync({ userId: user.id, role: 'developer' })}
+                        size="md"
+                      >
+                        Developer
+                      </Button>
+                    </div>
+                  </Td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </Table>
+      </div>
     </Card>
   )
 }

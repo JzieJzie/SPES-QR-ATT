@@ -21,39 +21,41 @@ export const ArchivedBeneficiariesPage = () => {
 
   return (
     <Card title="Archived Beneficiaries">
-      <Table>
-        <thead>
-          <tr>
-            <Th>Beneficiary ID</Th>
-            <Th>Name</Th>
-            <Th>Barangay</Th>
-            <Th>Action</Th>
-          </tr>
-        </thead>
-        <tbody>
-          {isLoading ? (
+      <div className="overflow-x-auto -mx-2 md:mx-0">
+        <Table>
+          <thead>
             <tr>
-              <Td>Loading...</Td>
-              <Td />
-              <Td />
-              <Td />
+              <Th>Beneficiary ID</Th>
+              <Th>Name</Th>
+              <Th>Barangay</Th>
+              <Th>Action</Th>
             </tr>
-          ) : (
-            data.map((row) => (
-              <tr key={row.id}>
-                <Td>{row.beneficiary_id}</Td>
-                <Td>{`${row.last_name}, ${row.first_name}`}</Td>
-                <Td>{row.barangays.name}</Td>
-                <Td>
-                  <Button variant="outline" onClick={() => void restoreMutation.mutateAsync(row.id)}>
-                    Restore
-                  </Button>
+          </thead>
+          <tbody>
+            {isLoading ? (
+              <tr>
+                <Td>Loading...</Td>
+                <Td />
+                <Td />
+                <Td />
+              </tr>
+            ) : (
+              data.map((row) => (
+                <tr key={row.id}>
+                  <Td>{row.beneficiary_id}</Td>
+                  <Td>{`${row.last_name}, ${row.first_name}`}</Td>
+                  <Td>{row.barangays.name}</Td>
+                  <Td>
+                    <Button variant="outline" onClick={() => void restoreMutation.mutateAsync(row.id)} size="md">
+                      Restore
+                    </Button>
                 </Td>
               </tr>
             ))
           )}
         </tbody>
       </Table>
+      </div>
     </Card>
   )
 }

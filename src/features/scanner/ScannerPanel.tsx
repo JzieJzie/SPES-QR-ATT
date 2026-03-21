@@ -89,13 +89,13 @@ export const ScannerPanel = ({ onDecoded, onError }: ScannerPanelProps) => {
   }
 
   return (
-    <Card title="Scanner Panel" className="space-y-4">
-      <div id={scannerRegionId} className="min-h-72 border-2 border-black" />
+    <Card title="Scanner Panel" className="space-y-3 md:space-y-4">
+      <div id={scannerRegionId} className="min-h-64 md:min-h-72 border-2 border-black" />
       <div className="flex flex-wrap gap-2">
-        <Button size="lg" className="w-full md:w-auto" onClick={() => void startScanner()}>
+        <Button size="md" className="flex-1 md:flex-none md:w-auto" onClick={() => void startScanner()}>
           Scan
         </Button>
-        <Button variant="outline" className="w-full md:w-auto" onClick={() => void stopScanner()}>
+        <Button variant="outline" className="flex-1 md:flex-none md:w-auto" onClick={() => void stopScanner()}>
           Stop
         </Button>
       </div>

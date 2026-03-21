@@ -18,8 +18,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           variant === 'primary' && 'shadow-brutal',
           variant === 'outline' && 'shadow-none',
           variant === 'danger' && 'bg-black text-white shadow-brutal',
-          size === 'md' && 'h-11 px-4 text-sm',
-          size === 'lg' && 'h-14 px-8 text-lg',
+          size === 'md' && 'h-10 px-3 text-xs md:h-11 md:px-4 md:text-sm',
+          size === 'lg' && 'h-11 px-4 text-sm md:h-14 md:px-8 md:text-lg',
           className,
         )}
         {...props}

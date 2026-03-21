@@ -26,15 +26,15 @@ export const DashboardPage = () => {
   })
 
   return (
-    <div className="grid gap-3 md:grid-cols-3">
+    <div className="grid gap-2 md:gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
       <Card title="Active Beneficiaries">
-        <p className="text-3xl font-heading">{isLoading ? '...' : data?.activeBeneficiaries}</p>
+        <p className="text-2xl md:text-3xl font-heading">{isLoading ? '...' : data?.activeBeneficiaries}</p>
       </Card>
       <Card title="Archived Beneficiaries">
-        <p className="text-3xl font-heading">{isLoading ? '...' : data?.archivedBeneficiaries}</p>
+        <p className="text-2xl md:text-3xl font-heading">{isLoading ? '...' : data?.archivedBeneficiaries}</p>
       </Card>
       <Card title="Today Accepted Scans">
-        <p className="text-3xl font-heading">{isLoading ? '...' : data?.todayAcceptedScans}</p>
+        <p className="text-2xl md:text-3xl font-heading">{isLoading ? '...' : data?.todayAcceptedScans}</p>
       </Card>
     </div>
   )

@@ -17,7 +17,7 @@ export const ScannerPage = () => {
   )
 
   return (
-    <div className="grid gap-4 md:grid-cols-[2fr,1fr]">
+    <div className="grid gap-3 md:gap-4 md:grid-cols-[2fr,1fr] grid-cols-1">
       <ScannerPanel
         onDecoded={async (decodedText) => {
           setErrorMessage('')
@@ -34,10 +34,10 @@ export const ScannerPage = () => {
         }}
         onError={(message) => setErrorMessage(message)}
       />
-      <div className="space-y-4">
+      <div className="space-y-3 md:space-y-4">
         {!isSecureForCamera ? (
           <Card title="Camera Requirement">
-            <p className="text-sm">
+            <p className="text-xs md:text-sm">
               Mobile browsers require HTTPS for camera access. If you opened this app via local IP over
               HTTP, scanning will fail.
             </p>

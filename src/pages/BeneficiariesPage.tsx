@@ -48,59 +48,63 @@ export const BeneficiariesPage = () => {
   }, [data, keyword])
 
   return (
-    <Card title="Beneficiaries" className="space-y-4">
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+    <Card title="Beneficiaries" className="space-y-3 md:space-y-4">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-stretch">
         <Input
           placeholder="Search by name, ID, barangay"
           value={keyword}
           onChange={(event) => setKeyword(event.target.value)}
+          className="flex-1"
         />
-        <Button variant="outline" onClick={() => navigate('/beneficiaries/archived')}>
+        <Button variant="outline" onClick={() => navigate('/beneficiaries/archived')} size="md" className="sm:flex-shrink-0">
           View Archived
         </Button>
       </div>
 
-      <Table>
-        <thead>
-          <tr>
-            <Th>Beneficiary ID</Th>
-            <Th>Name</Th>
-            <Th>Barangay</Th>
-            <Th>Action</Th>
-          </tr>
-        </thead>
-        <tbody>
-          {isLoading ? (
+      <div className="overflow-x-auto -mx-2 md:mx-0">
+        <Table>
+          <thead>
             <tr>
-              <Td>Loading...</Td>
-              <Td />
-              <Td />
-              <Td />
+              <Th>Beneficiary ID</Th>
+              <Th>Name</Th>
+              <Th>Barangay</Th>
+              <Th>Action</Th>
             </tr>
-          ) : (
-            filtered.map((beneficiary) => (
-              <tr key={beneficiary.id}>
-                <Td>{beneficiary.beneficiary_id}</Td>
-                <Td>{`${beneficiary.last_name}, ${beneficiary.first_name} ${beneficiary.middle_name ?? ''}`}</Td>
-                <Td>{beneficiary.barangays.name}</Td>
-                <Td>
-                  <Button
-                    variant="outline"
-                    onClick={() =>
-                      setSelected({
-                        id: beneficiary.id,
-                        beneficiaryId: beneficiary.beneficiary_id,
-                      })
-                    }
-                  >
-                    Archive
-                  </Button>
-                </Td>
+          </thead>
+          <tbody>
+            {isLoading ? (
+              <tr>
+                <Td>Loading...</Td>
+                <Td />
+                <Td />
+                <Td />
               </tr>
-            ))
+            ) : (
+              filtered.map((beneficiary) => (
+                <tr key={beneficiary.id}>
+                  <Td>{beneficiary.beneficiary_id}</Td>
+                  <Td>{`${beneficiary.last_name}, ${beneficiary.first_name} ${beneficiary.middle_name ?? ''}`}</Td>
+                  <Td>{beneficiary.barangays.name}</Td>
+                  <Td>
+                    <Button
+                      variant="outline"
+                      onClick={() =>
+                        setSelected({
+                          id: beneficiary.id,
+                          beneficiaryId: beneficiary.beneficiary_id,
+                        })
+                      }
+                      size="md"
+                    >
+                      Archive
+                    </Button>
+                  </Td>
+                </tr>
+              ))
           )}
         </tbody>
       </Table>
+      </div>
 
       <ArchiveConfirmDialog
         open={Boolean(selected)}

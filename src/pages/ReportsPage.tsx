@@ -139,28 +139,29 @@ export const ReportsPage = () => {
   }
 
   return (
-    <Card title="Reports" className="space-y-4">
-      <label className="grid max-w-xs gap-1 text-sm">
+    <Card title="Reports" className="space-y-3 md:space-y-4">
+      <label className="grid max-w-xs gap-1 text-xs md:text-sm">
         Attendance Date
         <Input type="date" value={date} onChange={(event) => setDate(event.target.value)} />
       </label>
       <div className="flex flex-wrap gap-2">
-        <Button onClick={() => void exportDaily()} disabled={isExporting || dailyRows.length === 0}>
+        <Button onClick={() => void exportDaily()} disabled={isExporting || dailyRows.length === 0} size="md">
           Export Daily XLSX
         </Button>
         <Button
           variant="outline"
           onClick={() => void exportMasterlist()}
           disabled={isExporting || !beneficiariesQuery.data?.length}
+          size="md"
         >
           Export Masterlist XLSX
         </Button>
       </div>
 
       {(isExporting || masterlistDurationMs !== null) && (
-        <div className="space-y-2 border-2 border-black bg-white p-3">
-          <p className="text-sm font-semibold">Masterlist Export Progress</p>
-          <div className="h-4 w-full border-2 border-black bg-zinc-100">
+        <div className="space-y-2 border-2 border-black bg-white p-2 md:p-3">
+          <p className="text-xs md:text-sm font-semibold">Masterlist Export Progress</p>
+          <div className="h-3 md:h-4 w-full border-2 border-black bg-zinc-100">
             <div
               className="h-full bg-black transition-all"
               style={{ width: `${masterlistProgress.percent}%` }}

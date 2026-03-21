@@ -76,28 +76,28 @@ export const BeneficiaryDetailsPage = () => {
   }
 
   return (
-    <div className="grid gap-4 md:grid-cols-[2fr,1fr]">
+    <div className="grid gap-3 md:gap-4 grid-cols-1 md:grid-cols-[2fr,1fr]">
       <Card title={title}>
         <form
-          className="grid gap-3"
+          className="grid gap-2 md:gap-3"
           onSubmit={handleSubmit(async (payload) => {
             await updateMutation.mutateAsync(payload)
             reset(payload)
           })}
         >
-          <label className="grid gap-1 text-sm">
+          <label className="grid gap-1 text-xs md:text-sm">
             Last Name
             <Input {...register('last_name')} />
           </label>
-          <label className="grid gap-1 text-sm">
+          <label className="grid gap-1 text-xs md:text-sm">
             First Name
             <Input {...register('first_name')} />
           </label>
-          <label className="grid gap-1 text-sm">
+          <label className="grid gap-1 text-xs md:text-sm">
             Middle Name
             <Input {...register('middle_name')} />
           </label>
-          <Button type="submit" disabled={updateMutation.isPending}>
+          <Button type="submit" disabled={updateMutation.isPending} size="md">
             Save Changes
           </Button>
         </form>
