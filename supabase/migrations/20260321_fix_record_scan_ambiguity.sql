@@ -114,10 +114,10 @@ begin
     end if;
 
     select count(*) + 1 into v_punch_sequence
-    from public.attendance_events
-    where beneficiary_ref = v_beneficiary.id
-      and attendance_date = v_attendance_date
-      and event_type = v_event_type;
+    from public.attendance_events e
+    where e.beneficiary_ref = v_beneficiary.id
+      and e.attendance_date = v_attendance_date
+      and e.event_type = v_event_type;
 
     if v_punch_sequence > 1 then
       v_is_extra := true;
