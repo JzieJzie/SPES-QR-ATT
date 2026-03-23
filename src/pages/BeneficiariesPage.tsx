@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 
@@ -13,7 +13,10 @@ export const BeneficiariesPage = () => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const [keyword, setKeyword] = useState('')
+  const [selectedBarangayId, setSelectedBarangayId] = useState<'all' | string>('all')
+  const [currentPage, setCurrentPage] = useState(1)
   const [selected, setSelected] = useState<{ id: string; beneficiaryId: string } | null>(null)
+  const pageSize = 50
 
   const { data = [], isLoading } = useQuery({
     queryKey: ['beneficiaries', 'active'],
@@ -28,11 +31,26 @@ export const BeneficiariesPage = () => {
     },
   })
 
+  const barangays = useMemo(() => {
+    const unique = new Map<string, string>()
+
+    data.forEach((row) => {
+      unique.set(row.barangays.id, row.barangays.name)
+    })
+
+    return Array.from(unique, ([id, name]) => ({ id, name }))
+      .sort((a, b) => a.name.localeCompare(b.name))
+  }, [data])
+
   const filtered = useMemo(() => {
     const normalized = keyword.trim().toLowerCase()
-    if (!normalized) return data
-
     return data.filter((row) => {
+      if (selectedBarangayId !== 'all' && row.barangays.id !== selectedBarangayId) {
+        return false
+      }
+
+      if (!normalized) return true
+
       const haystack = [
         row.beneficiary_id,
         row.first_name,
@@ -45,7 +63,25 @@ export const BeneficiariesPage = () => {
 
       return haystack.includes(normalized)
     })
-  }, [data, keyword])
+  }, [data, keyword, selectedBarangayId])
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize))
+  const safeCurrentPage = Math.min(currentPage, totalPages)
+
+  const paginated = useMemo(() => {
+    const start = (safeCurrentPage - 1) * pageSize
+    return filtered.slice(start, start + pageSize)
+  }, [filtered, safeCurrentPage])
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [keyword, selectedBarangayId])
+
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages)
+    }
+  }, [currentPage, totalPages])
 
   return (
     <Card title="Beneficiaries" className="space-y-3 md:space-y-4">
@@ -61,49 +97,123 @@ export const BeneficiariesPage = () => {
         </Button>
       </div>
 
-      <div className="overflow-x-auto -mx-2 md:mx-0">
-        <Table>
-          <thead>
-            <tr>
-              <Th>Beneficiary ID</Th>
-              <Th>Name</Th>
-              <Th>Barangay</Th>
-              <Th>Action</Th>
-            </tr>
-          </thead>
-          <tbody>
-            {isLoading ? (
+      <div className="grid gap-3 md:grid-cols-[220px_1fr] md:gap-4">
+        <aside className="border-2 border-black bg-white p-2">
+          <p className="px-1 pb-2 text-xs font-semibold uppercase tracking-wide">Barangays</p>
+          <div className="flex gap-2 overflow-x-auto pb-1 md:flex-col md:overflow-visible">
+            <Button
+              type="button"
+              variant={selectedBarangayId === 'all' ? 'primary' : 'outline'}
+              size="md"
+              className="whitespace-nowrap md:w-full md:justify-start"
+              onClick={() => setSelectedBarangayId('all')}
+            >
+              All Barangays
+            </Button>
+            {barangays.map((barangay) => (
+              <Button
+                key={barangay.id}
+                type="button"
+                variant={selectedBarangayId === barangay.id ? 'primary' : 'outline'}
+                size="md"
+                className="whitespace-nowrap md:w-full md:justify-start"
+                onClick={() => setSelectedBarangayId(barangay.id)}
+              >
+                {barangay.name}
+              </Button>
+            ))}
+          </div>
+        </aside>
+
+        <div className="space-y-3">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-xs md:text-sm">
+              Showing{' '}
+              {filtered.length === 0 ? 0 : (safeCurrentPage - 1) * pageSize + 1}
+              -
+              {Math.min(safeCurrentPage * pageSize, filtered.length)} of {filtered.length} beneficiaries
+            </p>
+            <div className="flex items-center gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="md"
+                onClick={() => setCurrentPage((previous) => Math.max(1, previous - 1))}
+                disabled={safeCurrentPage <= 1}
+              >
+                Previous
+              </Button>
+              <span className="text-xs font-semibold md:text-sm">
+                Page {safeCurrentPage} of {totalPages}
+              </span>
+              <Button
+                type="button"
+                variant="outline"
+                size="md"
+                onClick={() => setCurrentPage((previous) => Math.min(totalPages, previous + 1))}
+                disabled={safeCurrentPage >= totalPages}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+
+          <div className="overflow-x-auto -mx-2 md:mx-0">
+          <Table>
+            <thead>
               <tr>
-                <Td>Loading...</Td>
-                <Td />
-                <Td />
-                <Td />
+                <Th>Beneficiary ID</Th>
+                <Th>Name</Th>
+                <Th>Barangay</Th>
+                <Th>Action</Th>
               </tr>
-            ) : (
-              filtered.map((beneficiary) => (
-                <tr key={beneficiary.id}>
-                  <Td>{beneficiary.beneficiary_id}</Td>
-                  <Td>{`${beneficiary.last_name}, ${beneficiary.first_name} ${beneficiary.middle_name ?? ''}`}</Td>
-                  <Td>{beneficiary.barangays.name}</Td>
-                  <Td>
-                    <Button
-                      variant="outline"
-                      onClick={() =>
-                        setSelected({
-                          id: beneficiary.id,
-                          beneficiaryId: beneficiary.beneficiary_id,
-                        })
-                      }
-                      size="md"
-                    >
-                      Archive
-                    </Button>
-                  </Td>
+            </thead>
+            <tbody>
+              {isLoading ? (
+                <tr>
+                  <Td>Loading...</Td>
+                  <Td />
+                  <Td />
+                  <Td />
                 </tr>
-              ))
-          )}
-        </tbody>
-      </Table>
+              ) : filtered.length === 0 ? (
+                <tr>
+                  <Td>
+                    {selectedBarangayId === 'all'
+                      ? 'No beneficiaries found.'
+                      : 'No beneficiaries found in this barangay.'}
+                  </Td>
+                  <Td />
+                  <Td />
+                  <Td />
+                </tr>
+              ) : (
+                paginated.map((beneficiary) => (
+                  <tr key={beneficiary.id}>
+                    <Td>{beneficiary.beneficiary_id}</Td>
+                    <Td>{`${beneficiary.last_name}, ${beneficiary.first_name} ${beneficiary.middle_name ?? ''}`}</Td>
+                    <Td>{beneficiary.barangays.name}</Td>
+                    <Td>
+                      <Button
+                        variant="outline"
+                        onClick={() =>
+                          setSelected({
+                            id: beneficiary.id,
+                            beneficiaryId: beneficiary.beneficiary_id,
+                          })
+                        }
+                        size="md"
+                      >
+                        Archive
+                      </Button>
+                    </Td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </Table>
+          </div>
+        </div>
       </div>
 
       <ArchiveConfirmDialog
