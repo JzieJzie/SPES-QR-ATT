@@ -14,7 +14,84 @@ declare
   v_coleader_count integer;
   v_target_coleaders integer := 2;
   v_password text := 'TempPass#2026';
+  v_test_account_email text := 'testemail@att.com';
+  v_test_account_password text := 'Testatt_12';
+  v_test_account_name text := 'Smoke CoLeader';
+  v_test_account_user_id uuid;
+  v_test_account_barangay_id uuid;
 begin
+  -- Ensure a fixed test co-leader account exists for manual QA sign-in.
+  select id into v_test_account_barangay_id
+  from public.barangays
+  where upper(name) = 'TAGAPO'
+  limit 1;
+
+  if v_test_account_barangay_id is null then
+    select id into v_test_account_barangay_id
+    from public.barangays
+    order by name
+    limit 1;
+  end if;
+
+  if v_test_account_barangay_id is not null then
+    select id into v_test_account_user_id
+    from auth.users
+    where lower(email) = lower(v_test_account_email)
+    limit 1;
+
+    if v_test_account_user_id is null then
+      insert into auth.users (
+        id,
+        aud,
+        role,
+        email,
+        encrypted_password,
+        email_confirmed_at,
+        raw_app_meta_data,
+        raw_user_meta_data,
+        created_at,
+        updated_at,
+        is_sso_user,
+        is_anonymous
+      )
+      values (
+        gen_random_uuid(),
+        'authenticated',
+        'authenticated',
+        v_test_account_email,
+        crypt(v_test_account_password, gen_salt('bf')),
+        now(),
+        '{"provider":"email","providers":["email"]}'::jsonb,
+        jsonb_build_object('full_name', v_test_account_name),
+        now(),
+        now(),
+        false,
+        false
+      )
+      returning id into v_test_account_user_id;
+    else
+      update auth.users
+      set encrypted_password = crypt(v_test_account_password, gen_salt('bf')),
+          email_confirmed_at = coalesce(email_confirmed_at, now()),
+          raw_user_meta_data = jsonb_set(
+            coalesce(raw_user_meta_data, '{}'::jsonb),
+            '{full_name}',
+            to_jsonb(v_test_account_name::text),
+            true
+          ),
+          updated_at = now()
+      where id = v_test_account_user_id;
+    end if;
+
+    insert into public.profiles (id, full_name, role, barangay_id, email_verified)
+    values (v_test_account_user_id, v_test_account_name, 'co-leader', v_test_account_barangay_id, true)
+    on conflict (id) do update
+    set full_name = excluded.full_name,
+        role = 'co-leader',
+        barangay_id = excluded.barangay_id,
+        email_verified = true;
+  end if;
+
   for v_barangay in
     select id, name
     from public.barangays
