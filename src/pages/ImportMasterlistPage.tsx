@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
 import { Modal } from '../components/ui/Modal'
-import { importMasterlistRows } from '../features/imports/api'
+import { importMasterlistRows, type ProgramBatch } from '../features/imports/api'
 import { ImportPreviewTable } from '../features/imports/ImportPreviewTable'
 import { parseAndValidateImportFile } from '../lib/utils/import-normalization'
 import type { ImportRow } from '../lib/validators/import'
@@ -18,6 +18,7 @@ export const ImportMasterlistPage = () => {
   const [message, setMessage] = useState('')
   const [isImporting, setIsImporting] = useState(false)
   const [confirmOpen, setConfirmOpen] = useState(false)
+  const [selectedBatch, setSelectedBatch] = useState<ProgramBatch>('batch1')
 
   const onFileChange = async (selectedFile: File) => {
     setFile(selectedFile)
@@ -34,7 +35,12 @@ export const ImportMasterlistPage = () => {
     setMessage('')
     setImportFailures([])
     try {
-      const summary = await importMasterlistRows(file.name, file.type || 'application/octet-stream', rows)
+      const summary = await importMasterlistRows(
+        file.name,
+        file.type || 'application/octet-stream',
+        rows,
+        selectedBatch,
+      )
       setImportFailures(summary.failures)
       setMessage(
         `Import completed. Success: ${summary.successRows}, Failed: ${summary.failedRows}, Total: ${summary.totalRows}`,
@@ -65,6 +71,15 @@ export const ImportMasterlistPage = () => {
             }}
           />
           <p className="text-xs font-mono">{file ? `Selected: ${file.name}` : 'No file selected yet.'}</p>
+          <label className="block text-xs font-mono uppercase">Assign Imported Rows To Batch</label>
+          <select
+            value={selectedBatch}
+            onChange={(event) => setSelectedBatch(event.target.value as ProgramBatch)}
+            className="w-full border-2 border-black bg-white px-2 py-2 text-xs md:text-sm"
+          >
+            <option value="batch1">Batch 1</option>
+            <option value="batch2">Batch 2</option>
+          </select>
         </div>
 
         <Button
@@ -92,6 +107,7 @@ export const ImportMasterlistPage = () => {
           <p>
             File: <span className="font-mono break-all">{file?.name ?? 'N/A'}</span>
           </p>
+          <p>Selected batch: {selectedBatch === 'batch1' ? 'Batch 1' : 'Batch 2'}</p>
           <p>Valid rows to import: {rows.length}</p>
           <p>Invalid rows (will be skipped): {invalidRows.length}</p>
           <div className="flex gap-2 flex-wrap">

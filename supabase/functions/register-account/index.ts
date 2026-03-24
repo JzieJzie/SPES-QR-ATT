@@ -19,6 +19,13 @@ type RegisterPayload = {
   appUrl?: string
 }
 
+type ProgramBatch = 'batch1' | 'batch2'
+
+type RoleBatchCodes = {
+  batch1: string
+  batch2: string
+}
+
 const MAX_ATTEMPTS_PER_IP_PER_HOUR = 8
 const MAX_ATTEMPTS_PER_EMAIL_PER_DAY = 5
 
@@ -37,6 +44,18 @@ const getAvatarExtension = (mimeType: string | undefined): string => {
   return 'jpg'
 }
 
+const resolveProgramBatch = (
+  accessCode: string | undefined,
+  expectedCodes: RoleBatchCodes,
+): ProgramBatch | null => {
+  const normalized = accessCode?.trim()
+  if (!normalized) return null
+
+  if (normalized === expectedCodes.batch1) return 'batch1'
+  if (normalized === expectedCodes.batch2) return 'batch2'
+  return null
+}
+
 Deno.serve(async (request) => {
   if (request.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
@@ -50,7 +69,11 @@ Deno.serve(async (request) => {
   const supabaseUrl = Deno.env.get('SUPABASE_URL')
   const smtpPassword = Deno.env.get('SMTP_APP_PASSWORD')
   const leaderSignupCode = Deno.env.get('LEADER_SIGNUP_CODE')
+  const leaderSignupCodeBatch1 = Deno.env.get('LEADER_SIGNUP_CODE_BATCH1')
+  const leaderSignupCodeBatch2 = Deno.env.get('LEADER_SIGNUP_CODE_BATCH2')
   const coLeaderSignupCode = Deno.env.get('CO_LEADER_SIGNUP_CODE')
+  const coLeaderSignupCodeBatch1 = Deno.env.get('CO_LEADER_SIGNUP_CODE_BATCH1')
+  const coLeaderSignupCodeBatch2 = Deno.env.get('CO_LEADER_SIGNUP_CODE_BATCH2')
 
   if (!serviceRoleKey || !supabaseUrl || !smtpPassword) {
     return new Response(
@@ -74,6 +97,18 @@ Deno.serve(async (request) => {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     })
   }
+
+  const leaderBatchCodes: RoleBatchCodes = {
+    batch1: leaderSignupCodeBatch1?.trim() || leaderSignupCode?.trim() || 'SPES_LEADER_2026',
+    batch2: leaderSignupCodeBatch2?.trim() || 'SPES_LEADER_BATCH2_2026',
+  }
+
+  const coLeaderBatchCodes: RoleBatchCodes = {
+    batch1: coLeaderSignupCodeBatch1?.trim() || coLeaderSignupCode?.trim() || 'SPES_CO-LEADER_2026',
+    batch2: coLeaderSignupCodeBatch2?.trim() || 'SPES_CO-LEADER_BATCH2_2026',
+  }
+
+  let requestedBatch: ProgramBatch | null = null
 
   const supabase = createClient(supabaseUrl, serviceRoleKey)
   const normalizedEmail = payload.email.trim().toLowerCase()
@@ -138,9 +173,9 @@ Deno.serve(async (request) => {
   }
 
   if (payload.role === 'leader') {
-    const expectedLeaderCode = leaderSignupCode?.trim() || 'SPES_LEADER_2026'
+    requestedBatch = resolveProgramBatch(payload.leaderAccessCode, leaderBatchCodes)
 
-    if (!payload.leaderAccessCode || payload.leaderAccessCode.trim() !== expectedLeaderCode) {
+    if (!requestedBatch) {
       return new Response(JSON.stringify({ error: 'Invalid leader access code.' }), {
         status: 403,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -149,14 +184,21 @@ Deno.serve(async (request) => {
   }
 
   if (payload.role === 'co-leader') {
-    const expectedCoLeaderCode = coLeaderSignupCode?.trim() || 'SPES_CO-LEADER_2026'
+    requestedBatch = resolveProgramBatch(payload.coLeaderAccessCode, coLeaderBatchCodes)
 
-    if (!payload.coLeaderAccessCode || payload.coLeaderAccessCode.trim() !== expectedCoLeaderCode) {
+    if (!requestedBatch) {
       return new Response(JSON.stringify({ error: 'Invalid co-leader access code.' }), {
         status: 403,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       })
     }
+  }
+
+  if (!requestedBatch) {
+    return new Response(JSON.stringify({ error: 'Unable to determine registration batch.' }), {
+      status: 400,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    })
   }
 
   let barangayId: string | null = null
@@ -240,6 +282,7 @@ Deno.serve(async (request) => {
     .update({
       full_name: payload.fullName,
       role: payload.role,
+      program_batch: requestedBatch,
       barangay_id: barangayId,
       avatar_url: avatarUrl,
       email_verified: false,

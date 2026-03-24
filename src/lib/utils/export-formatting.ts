@@ -9,6 +9,7 @@ export type MasterlistExportRow = {
   firstName: string
   middleName: string
   barangay: string
+  programBatch: string
   qrImageUrl: string
   qrDownloadUrl: string
 }
@@ -31,6 +32,7 @@ export const exportMasterlistXlsx = async (
     { header: 'firstName', key: 'firstName', width: 18 },
     { header: 'middleName', key: 'middleName', width: 18 },
     { header: 'Barangay', key: 'barangay', width: 22 },
+    { header: 'Program Batch', key: 'programBatch', width: 14 },
     { header: 'QR', key: 'qr', width: 15 },
     { header: 'QR Download Link', key: 'qrDownloadLink', width: 40 },
   ]
@@ -45,11 +47,12 @@ export const exportMasterlistXlsx = async (
       firstName: row.firstName,
       middleName: row.middleName,
       barangay: row.barangay,
+      programBatch: row.programBatch,
       qr: '',
       qrDownloadLink: row.qrDownloadUrl ? 'Download QR' : 'N/A',
     })
 
-    const linkCell = sheet.getCell(rowIndex, 7)
+    const linkCell = sheet.getCell(rowIndex, 8)
     if (row.qrDownloadUrl) {
       linkCell.value = { text: 'Download QR', hyperlink: row.qrDownloadUrl }
       linkCell.font = { color: { argb: 'FF0563C1' }, underline: true }
@@ -64,7 +67,7 @@ export const exportMasterlistXlsx = async (
       })
 
       sheet.addImage(imageId, {
-        tl: { col: 5.1, row: rowIndex - 0.85 },
+        tl: { col: 6.1, row: rowIndex - 0.85 },
         ext: { width: 68, height: 68 },
       })
       sheet.getRow(rowIndex).height = 56

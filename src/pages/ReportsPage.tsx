@@ -106,6 +106,7 @@ export const ReportsPage = () => {
           firstName: beneficiary.first_name,
           middleName: beneficiary.middle_name ?? '',
           barangay: beneficiary.barangays.name,
+          programBatch: beneficiary.program_batch === 'batch2' ? 'Batch 2' : 'Batch 1',
           qrImageUrl,
           qrDownloadUrl,
         })

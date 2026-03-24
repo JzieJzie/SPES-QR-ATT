@@ -12,6 +12,8 @@ type ImportSummary = {
   failures: Array<{ row: number; reason: string }>
 }
 
+export type ProgramBatch = 'batch1' | 'batch2'
+
 const summarizeFailure = (message: string): string => {
   const normalized = message.toLowerCase()
 
@@ -63,6 +65,7 @@ const getOrCreateBarangayId = async (name: string): Promise<string> => {
 const getOrCreateBeneficiary = async (
   row: ImportRow,
   barangayId: string,
+  programBatch: ProgramBatch,
 ): Promise<{ id: string; beneficiary_id: string }> => {
   const normalizedLastName = row.lastName.trim().toUpperCase()
   const normalizedFirstName = row.firstName.trim().toUpperCase()
@@ -87,7 +90,7 @@ const getOrCreateBeneficiary = async (
   if (existing) {
     const { error: restoreError } = await supabase
       .from('beneficiaries')
-      .update({ is_archived: false })
+      .update({ is_archived: false, program_batch: programBatch })
       .eq('id', existing.id)
 
     if (restoreError) throw restoreError
@@ -101,6 +104,7 @@ const getOrCreateBeneficiary = async (
       first_name: normalizedFirstName,
       middle_name: normalizedMiddleName,
       barangay_id: barangayId,
+      program_batch: programBatch,
     })
     .select('id, beneficiary_id')
     .single()
@@ -116,6 +120,7 @@ export const importMasterlistRows = async (
   fileName: string,
   fileType: string,
   rows: ImportRow[],
+  programBatch: ProgramBatch,
 ): Promise<ImportSummary> => {
   let successRows = 0
   const failures: Array<{ row: number; reason: string }> = []
@@ -123,7 +128,7 @@ export const importMasterlistRows = async (
   for (const [index, row] of rows.entries()) {
     try {
       const barangayId = await getOrCreateBarangayId(row.Barangay)
-      const beneficiary = await getOrCreateBeneficiary(row, barangayId)
+      const beneficiary = await getOrCreateBeneficiary(row, barangayId, programBatch)
 
       const qrBlob = await toPngBlob(beneficiary.beneficiary_id)
       const qrPath = `${beneficiary.beneficiary_id}.png`
@@ -164,6 +169,7 @@ export const importMasterlistRows = async (
     total_rows: rows.length,
     success_rows: successRows,
     failed_rows: failedRows,
+    program_batch: programBatch,
   })
 
   if (importLogError) {

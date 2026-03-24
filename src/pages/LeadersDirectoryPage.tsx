@@ -18,6 +18,7 @@ export const LeadersDirectoryPage = () => {
           <tr>
             <Th>Name</Th>
             <Th>Role</Th>
+            <Th>Batch</Th>
             <Th>Barangay</Th>
           </tr>
         </thead>
@@ -27,10 +28,12 @@ export const LeadersDirectoryPage = () => {
               <Td>Loading...</Td>
               <Td />
               <Td />
+              <Td />
             </tr>
           ) : data.length === 0 ? (
             <tr>
               <Td>No registered leaders/co-leaders yet.</Td>
+              <Td />
               <Td />
               <Td />
             </tr>
@@ -39,6 +42,7 @@ export const LeadersDirectoryPage = () => {
               <tr key={leader.id}>
                 <Td>{leader.full_name ?? 'N/A'}</Td>
                 <Td>{leader.role}</Td>
+                <Td>{leader.program_batch === 'batch2' ? 'Batch 2' : 'Batch 1'}</Td>
                 <Td>{leader.barangay_name ?? 'N/A'}</Td>
               </tr>
             ))
