@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -92,6 +92,12 @@
         gap: 14px;
       }
 
+      .profile-stack {
+        display: flex;
+        align-items: stretch;
+        gap: 10px;
+      }
+
       .card {
         border: 2px solid var(--line);
         background: var(--panel);
@@ -100,6 +106,54 @@
 
       .profile {
         padding: 14px;
+        flex: 1;
+      }
+
+      .social-rail {
+        width: 74px;
+        border: 2px solid var(--line);
+        background: #fff;
+        box-shadow: var(--shadow);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 6px;
+      }
+
+      .social-rail .rail-title {
+        margin: 0;
+        font-size: 10px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .social-link {
+        width: 100%;
+        min-height: 40px;
+        border: 2px solid var(--line);
+        text-decoration: none;
+        color: var(--text);
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        font-size: 9px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+
+      .social-link:hover {
+        transform: translateY(-1px);
+      }
+
+      .social-link .logo-mark {
+        width: 16px;
+        height: 16px;
       }
 
       .avatar-wrap {
@@ -243,6 +297,27 @@
         .grid {
           grid-template-columns: 1fr;
           gap: 12px;
+        }
+
+        .profile-stack {
+          flex-direction: column;
+        }
+
+        .social-rail {
+          width: 100%;
+          flex-direction: row;
+          justify-content: center;
+          flex-wrap: wrap;
+          padding: 8px;
+        }
+
+        .social-rail .rail-title {
+          width: 100%;
+          text-align: center;
+        }
+
+        .social-link {
+          width: 66px;
         }
 
         .notice {
@@ -420,58 +495,84 @@
       </div>
 
       <div class="grid">
-        <section class="card profile" aria-label="Developer profile">
-          <div class="avatar-wrap">
-            <img
-              class="avatar"
-              src="/dev/images/devpic1.jpg"
-              alt="Jzienelo profile picture"
-              onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=Jzienelo+Amran+Diente&size=640&background=111111&color=ffffff&bold=true';"
-            />
-          </div>
-          <p class="role">Developer Profile</p>
-          <h1 class="name">Diente, Jzienelo Amran A.</h1>
-          <p class="role">Third-year BSCS Student</p>
+        <div class="profile-stack">
+          <section class="card profile" aria-label="Developer profile">
+            <div class="avatar-wrap">
+              <img
+                class="avatar"
+                src="/dev/images/devpic1.jpg"
+                alt="Jzienelo profile picture"
+                onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=Jzienelo+Amran+Diente&size=640&background=111111&color=ffffff&bold=true';"
+              />
+            </div>
+            <p class="role">Developer Profile</p>
+            <h1 class="name">Diente, Jzienelo Amran A.</h1>
+            <p class="role">Third-year BSCS Student</p>
 
-          <div class="section">
-            <h3>Profile</h3>
-            <p>
-              A Computer Science student in CITI Global College with experience in front-end
-              development using HTML, CSS, and JavaScript, currently expanding knowledge in backend
-              development and software systems.
-            </p>
-            <p>
-              Demonstrates strong leadership and commitment to public service through active
-              involvement in organizational initiatives and community programs.
-            </p>
-          </div>
+            <div class="section">
+              <h3>Profile</h3>
+              <p>
+                A Computer Science student in CITI Global College with experience in front-end
+                development using HTML, CSS, and JavaScript, currently expanding knowledge in backend
+                development and software systems.
+              </p>
+              <p>
+                Demonstrates strong leadership and commitment to public service through active
+                involvement in organizational initiatives and community programs.
+              </p>
+            </div>
 
-          <div class="section">
-            <h3>Contact</h3>
-            <p>Phone: 0991-337-3802</p>
-            <p>Email: arambulo1jzieneloamran@gmail.com</p>
-            <p>Address: Tagapo, Santa Rosa, Laguna</p>
-          </div>
+            <div class="section">
+              <h3>Contact</h3>
+              <p>Phone: 0991-337-3802</p>
+              <p>Email: arambulo1jzieneloamran@gmail.com</p>
+              <p>Address: Tagapo, Santa Rosa, Laguna</p>
+            </div>
 
-          <div class="section">
-            <h3>Skills</h3>
-            <ul>
-              <li>Management Skills</li>
-              <li>Leadership</li>
-              <li>Front-end Development</li>
-              <li>Graphic Designing</li>
-              <li>Backend Learning and Integration</li>
-            </ul>
-          </div>
+            <div class="section">
+              <h3>Skills</h3>
+              <ul>
+                <li>Management Skills</li>
+                <li>Leadership</li>
+                <li>Front-end Development</li>
+                <li>Graphic Designing</li>
+                <li>Backend Learning and Integration</li>
+              </ul>
+            </div>
 
-          <div class="section">
-            <h3>Language</h3>
-            <ul>
-              <li>Tagalog</li>
-              <li>English</li>
-            </ul>
-          </div>
-        </section>
+            <div class="section">
+              <h3>Language</h3>
+              <ul>
+                <li>Tagalog</li>
+                <li>English</li>
+              </ul>
+            </div>
+          </section>
+
+          <aside class="social-rail" aria-label="Developer links">
+            <p class="rail-title">Links</p>
+            <a class="social-link" href="https://github.com/JzieJzie" target="_blank" rel="noopener">
+              <img class="logo-mark" src="https://cdn.simpleicons.org/github" alt="GitHub" />
+              GH
+            </a>
+            <a class="social-link" href="https://www.linkedin.com/in/jzienelo-amran-a-diente-53979a344" target="_blank" rel="noopener">
+              <img class="logo-mark" src="https://cdn.simpleicons.org/linkedin" alt="LinkedIn" />
+              IN
+            </a>
+            <a class="social-link" href="https://facebook.com/jzienelo.amran.diente.2024" target="_blank" rel="noopener">
+              <img class="logo-mark" src="https://cdn.simpleicons.org/facebook" alt="Facebook" />
+              FB
+            </a>
+            <a class="social-link" href="https://instagram.com/ddd.j_a.v" target="_blank" rel="noopener">
+              <img class="logo-mark" src="https://cdn.simpleicons.org/instagram" alt="Instagram" />
+              IG
+            </a>
+            <a class="social-link" href="mailto:arambulo1jzieneloamran@gmail.com">
+              <img class="logo-mark" src="https://cdn.simpleicons.org/gmail" alt="Gmail" />
+              Mail
+            </a>
+          </aside>
+        </div>
 
         <section class="card panel" aria-label="System-aligned summary">
           <h2>JZIENELO</h2>
