@@ -3,7 +3,7 @@ import type { PropsWithChildren } from 'react'
 import { cn } from '../../lib/utils/cn'
 
 export const Table = ({ children, className }: PropsWithChildren<{ className?: string }>) => (
-  <div className="w-full max-w-full overflow-x-auto border-2 border-black dark:border-white -mx-2 md:mx-0">
+  <div className="overflow-x-auto border-2 border-black dark:border-white -mx-2 md:mx-0">
     <table className={cn('min-w-full border-collapse text-left text-xs md:text-sm', className)}>{children}</table>
   </div>
 )

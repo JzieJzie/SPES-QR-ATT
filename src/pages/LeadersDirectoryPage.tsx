@@ -40,14 +40,10 @@ export const LeadersDirectoryPage = () => {
           ) : (
             data.map((leader) => (
               <tr key={leader.id}>
-                <Td>
-                  <span className="break-words">{leader.full_name ?? 'N/A'}</span>
-                </Td>
+                <Td>{leader.full_name ?? 'N/A'}</Td>
                 <Td>{leader.role}</Td>
                 <Td>{leader.program_batch === 'batch2' ? 'Batch 2' : 'Batch 1'}</Td>
-                <Td>
-                  <span className="break-words">{leader.barangay_name ?? 'N/A'}</span>
-                </Td>
+                <Td>{leader.barangay_name ?? 'N/A'}</Td>
               </tr>
             ))
           )}
