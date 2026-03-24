@@ -60,7 +60,7 @@ export const VisitorBarangayMapPage = () => {
       </p>
 
       <div className="grid gap-3 md:grid-cols-[1fr,320px]">
-        <div className="overflow-hidden border-2 border-black bg-zinc-100">
+        <div className="overflow-hidden border-2 border-black dark:border-white bg-white dark:bg-black">
           <iframe
             title={`Google Map - ${selectedBarangay}`}
             src={mapEmbedUrl}
@@ -70,16 +70,16 @@ export const VisitorBarangayMapPage = () => {
           />
         </div>
 
-        <div className="space-y-3 border-2 border-black bg-white p-3">
+        <div className="space-y-3 border-2 border-black dark:border-white bg-white dark:bg-black p-3">
           <p className="text-sm font-semibold">Selected: {selectedBarangay}</p>
 
-          <div className="space-y-1 border-2 border-black bg-zinc-50 p-2">
+          <div className="space-y-1 border-2 border-black dark:border-white bg-white dark:bg-black p-2">
             <p className="text-xs font-semibold uppercase tracking-wide">SPES Leader</p>
             {isDirectoryLoading ? (
               <p className="text-sm">Loading leader info...</p>
             ) : selectedBarangayLeader ? (
               <div className="flex items-center gap-2">
-                <div className="h-10 w-10 overflow-hidden rounded border-2 border-black bg-zinc-200">
+                <div className="h-10 w-10 overflow-hidden rounded border-2 border-black dark:border-white bg-white dark:bg-black">
                   {selectedBarangayLeader.avatar_url ? (
                     <img
                       src={selectedBarangayLeader.avatar_url}
@@ -102,7 +102,7 @@ export const VisitorBarangayMapPage = () => {
                 <div className="space-y-1">
                   {selectedBarangayCoLeaders.map((record) => (
                     <div key={record.id} className="flex items-center gap-2">
-                      <div className="h-8 w-8 overflow-hidden rounded border-2 border-black bg-zinc-200">
+                      <div className="h-8 w-8 overflow-hidden rounded border-2 border-black dark:border-white bg-white dark:bg-black">
                         {record.avatar_url ? (
                           <img
                             src={record.avatar_url}

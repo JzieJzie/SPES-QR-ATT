@@ -57,12 +57,12 @@ export const ImportMasterlistPage = () => {
   return (
     <div className="space-y-3 md:space-y-4">
       <Card title="Import Masterlist" className="space-y-2 md:space-y-3">
-        <div className="space-y-2 border-2 border-black bg-white p-2 md:p-3">
+        <div className="space-y-2 border-2 border-black dark:border-white bg-white dark:bg-black p-2 md:p-3">
           <label className="block text-xs font-mono uppercase">Choose File (CSV or XLSX)</label>
           <input
             type="file"
             accept=".csv,.xlsx"
-            className="block w-full border-2 border-black bg-white p-2 text-xs md:text-sm"
+            className="block w-full border-2 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white p-2 text-xs md:text-sm"
             onChange={(event) => {
               const selectedFile = event.target.files?.[0]
               if (selectedFile) {
@@ -75,7 +75,7 @@ export const ImportMasterlistPage = () => {
           <select
             value={selectedBatch}
             onChange={(event) => setSelectedBatch(event.target.value as ProgramBatch)}
-            className="w-full border-2 border-black bg-white px-2 py-2 text-xs md:text-sm"
+            className="w-full border-2 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white px-2 py-2 text-xs md:text-sm"
           >
             <option value="batch1">Batch 1</option>
             <option value="batch2">Batch 2</option>
@@ -91,7 +91,7 @@ export const ImportMasterlistPage = () => {
         </Button>
         {message ? <p className="text-xs md:text-sm font-semibold break-words">{message}</p> : null}
         {importFailures.length > 0 ? (
-          <div className="border-2 border-black bg-white p-2 text-xs overflow-auto max-h-48">
+          <div className="border-2 border-black dark:border-white bg-white dark:bg-black p-2 text-xs overflow-auto max-h-48">
             <p className="mb-1 font-mono uppercase">Import failure details</p>
             {importFailures.slice(0, 10).map((failure) => (
               <p key={`${failure.row}-${failure.reason}`}>Row {failure.row}: {failure.reason}</p>

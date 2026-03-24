@@ -11,6 +11,7 @@ type RegisterPayload = {
   password: string
   fullName: string
   role: 'leader' | 'co-leader'
+  programBatch?: ProgramBatch
   barangayName: string
   leaderAccessCode?: string
   coLeaderAccessCode?: string
@@ -98,14 +99,21 @@ Deno.serve(async (request) => {
     })
   }
 
+  if (payload.programBatch !== 'batch1' && payload.programBatch !== 'batch2') {
+    return new Response(JSON.stringify({ error: 'Invalid batch selected.' }), {
+      status: 400,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    })
+  }
+
   const leaderBatchCodes: RoleBatchCodes = {
-    batch1: leaderSignupCodeBatch1?.trim() || leaderSignupCode?.trim() || 'SPES_LEADER_2026',
-    batch2: leaderSignupCodeBatch2?.trim() || 'SPES_LEADER_BATCH2_2026',
+    batch1: leaderSignupCodeBatch1?.trim() || leaderSignupCode?.trim() || 'SPES_LEADER_2026_1',
+    batch2: leaderSignupCodeBatch2?.trim() || 'SPES_LEADER_2026_2',
   }
 
   const coLeaderBatchCodes: RoleBatchCodes = {
-    batch1: coLeaderSignupCodeBatch1?.trim() || coLeaderSignupCode?.trim() || 'SPES_CO-LEADER_2026',
-    batch2: coLeaderSignupCodeBatch2?.trim() || 'SPES_CO-LEADER_BATCH2_2026',
+    batch1: coLeaderSignupCodeBatch1?.trim() || coLeaderSignupCode?.trim() || 'SPES_CO-LEADER_2026_1',
+    batch2: coLeaderSignupCodeBatch2?.trim() || 'SPES_CO-LEADER_2026_2',
   }
 
   let requestedBatch: ProgramBatch | null = null
@@ -197,6 +205,15 @@ Deno.serve(async (request) => {
   if (!requestedBatch) {
     return new Response(JSON.stringify({ error: 'Unable to determine registration batch.' }), {
       status: 400,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    })
+  }
+
+  if (requestedBatch !== payload.programBatch) {
+    return new Response(JSON.stringify({
+      error: `The access code does not match the selected ${payload.programBatch === 'batch2' ? 'Batch 2' : 'Batch 1'}.`,
+    }), {
+      status: 403,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     })
   }

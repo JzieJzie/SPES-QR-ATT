@@ -15,7 +15,7 @@ export const VerifyAccountPage = () => {
   })
 
   return (
-    <main className="grid min-h-screen place-items-center bg-zinc-100 p-4">
+    <main className="grid min-h-screen place-items-center bg-white dark:bg-black p-4">
       <Card className="w-full max-w-md space-y-4" title="Verify Account">
         <p className="text-sm">Confirm your email to activate your SPES QR Attendance account.</p>
         {!token ? <p className="text-sm font-semibold">Invalid verification link.</p> : null}

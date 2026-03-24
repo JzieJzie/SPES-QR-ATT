@@ -16,6 +16,7 @@ const registerSchema = z.object({
   email: z.string().email('Use a valid email'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
   role: z.enum(['leader', 'co-leader']),
+  programBatch: z.enum(['batch1', 'batch2']),
   barangayName: z.string().min(1, 'Barangay is required'),
   leaderAccessCode: z.string().optional(),
   coLeaderAccessCode: z.string().optional(),
@@ -56,6 +57,7 @@ export const RegisterPage = () => {
     resolver: zodResolver(registerSchema),
     defaultValues: {
       role: 'co-leader',
+      programBatch: 'batch1',
       barangayName: '',
       leaderAccessCode: '',
       coLeaderAccessCode: '',
@@ -63,6 +65,7 @@ export const RegisterPage = () => {
   })
 
   const selectedRole = useWatch({ control, name: 'role' })
+  const selectedProgramBatch = useWatch({ control, name: 'programBatch' })
 
   const mutation = useMutation({
     mutationFn: registerAccount,
@@ -96,6 +99,7 @@ export const RegisterPage = () => {
       password: values.password,
       fullName: values.fullName,
       role: values.role,
+      programBatch: values.programBatch,
       barangayName: values.barangayName,
       leaderAccessCode: values.leaderAccessCode,
       coLeaderAccessCode: values.coLeaderAccessCode,
@@ -105,7 +109,7 @@ export const RegisterPage = () => {
   }
 
   return (
-    <main className="grid min-h-screen place-items-center bg-zinc-100 p-4">
+    <main className="grid min-h-screen place-items-center bg-white dark:bg-black p-4">
       <Card className="w-full max-w-lg space-y-4" title="Create Account">
         <p className="text-sm">Register as a Leader or Co-Leader. Profile picture is optional.</p>
         <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
@@ -125,15 +129,25 @@ export const RegisterPage = () => {
             Role
             <select
               {...register('role')}
-              className="w-full border-2 border-black bg-white px-2 py-2 text-sm"
+              className="w-full border-2 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white px-2 py-2 text-sm"
             >
               <option value="leader">Leader</option>
               <option value="co-leader">Co-Leader</option>
             </select>
           </label>
+          <label className="grid gap-1 text-sm">
+            Batch
+            <select
+              {...register('programBatch')}
+              className="w-full border-2 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white px-2 py-2 text-sm"
+            >
+              <option value="batch1">Batch 1</option>
+              <option value="batch2">Batch 2</option>
+            </select>
+          </label>
           {selectedRole === 'leader' ? (
             <label className="grid gap-1 text-sm">
-              Leader Access Code
+              Leader Access Code ({selectedProgramBatch === 'batch2' ? 'Batch 2' : 'Batch 1'})
               <Input type="password" autoComplete="off" {...register('leaderAccessCode')} />
               {formState.errors.leaderAccessCode ? (
                 <span className="text-xs font-semibold">{formState.errors.leaderAccessCode.message}</span>
@@ -142,7 +156,7 @@ export const RegisterPage = () => {
           ) : null}
           {selectedRole === 'co-leader' ? (
             <label className="grid gap-1 text-sm">
-              Co-Leader Access Code
+              Co-Leader Access Code ({selectedProgramBatch === 'batch2' ? 'Batch 2' : 'Batch 1'})
               <Input type="password" autoComplete="off" {...register('coLeaderAccessCode')} />
               {formState.errors.coLeaderAccessCode ? (
                 <span className="text-xs font-semibold">{formState.errors.coLeaderAccessCode.message}</span>
@@ -151,7 +165,10 @@ export const RegisterPage = () => {
           ) : null}
           <label className="grid gap-1 text-sm">
             Barangay
-            <select {...register('barangayName')} className="w-full border-2 border-black bg-white px-2 py-2 text-sm">
+            <select
+              {...register('barangayName')}
+              className="w-full border-2 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white px-2 py-2 text-sm"
+            >
               <option value="">Select barangay</option>
               {SANTA_ROSA_BARANGAYS.map((barangayName) => (
                 <option key={barangayName} value={barangayName}>

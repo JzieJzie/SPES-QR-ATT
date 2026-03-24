@@ -78,7 +78,7 @@ export const ProfilePage = () => {
   return (
     <Card title="My Profile" className="space-y-4">
       <div className="grid gap-4 md:grid-cols-[160px,1fr]">
-        <div className="h-40 w-40 overflow-hidden border-2 border-black bg-zinc-200">
+        <div className="h-40 w-40 overflow-hidden border-2 border-black dark:border-white bg-white dark:bg-black">
           {profile.avatar_url ? (
             <img src={profile.avatar_url} alt="Profile" className="h-full w-full object-cover" />
           ) : (
@@ -105,7 +105,7 @@ export const ProfilePage = () => {
       {!isEditing ? (
         <Button onClick={startEdit}>Edit Profile</Button>
       ) : (
-        <div className="space-y-3 border-2 border-black p-3">
+        <div className="space-y-3 border-2 border-black dark:border-white p-3">
           <label className="grid gap-1 text-sm">
             Full Name
             <Input value={fullName} onChange={(event) => setFullName(event.target.value)} />
@@ -116,7 +116,7 @@ export const ProfilePage = () => {
             <select
               value={barangayId}
               onChange={(event) => setBarangayId(event.target.value)}
-              className="w-full border-2 border-black bg-white px-2 py-2 text-sm"
+              className="w-full border-2 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white px-2 py-2 text-sm"
             >
               <option value="">Select barangay</option>
               {(barangaysQuery.data ?? []).map((barangay) => (

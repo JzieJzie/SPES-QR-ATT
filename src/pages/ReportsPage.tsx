@@ -160,9 +160,9 @@ export const ReportsPage = () => {
       </div>
 
       {(isExporting || masterlistDurationMs !== null) && (
-        <div className="space-y-2 border-2 border-black bg-white p-2 md:p-3">
+        <div className="space-y-2 border-2 border-black dark:border-white bg-white dark:bg-black p-2 md:p-3">
           <p className="text-xs md:text-sm font-semibold">Masterlist Export Progress</p>
-          <div className="h-3 md:h-4 w-full border-2 border-black bg-zinc-100">
+          <div className="h-3 md:h-4 w-full border-2 border-black dark:border-white bg-white dark:bg-black">
             <div
               className="h-full bg-black transition-all"
               style={{ width: `${masterlistProgress.percent}%` }}

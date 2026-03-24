@@ -2,8 +2,19 @@ import type { Config } from 'tailwindcss'
 
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
+      colors: {
+        'bg-light': '#ffffff',
+        'bg-dark': '#000000',
+        'surface-light': '#ffffff',
+        'surface-dark': '#000000',
+        'border-light': '#000000',
+        'border-dark': '#ffffff',
+        'text-light': '#000000',
+        'text-dark': '#ffffff',
+      },
       fontFamily: {
         heading: ['"Archivo Black"', 'sans-serif'],
         body: ['"Space Grotesk"', 'sans-serif'],
@@ -11,6 +22,7 @@ export default {
       },
       boxShadow: {
         brutal: '6px 6px 0 0 #000000',
+        'brutal-dark': '6px 6px 0 0 #ffffff',
       },
       keyframes: {
         slideIn: {

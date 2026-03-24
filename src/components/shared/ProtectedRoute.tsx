@@ -22,8 +22,8 @@ export const ProtectedRoute = ({ allowedRoles, children }: ProtectedRouteProps) 
 
   if (!profile) {
     return (
-      <div className="grid min-h-screen place-items-center bg-zinc-100 p-4">
-        <div className="max-w-xl border-2 border-black bg-white p-4 shadow-brutal">
+      <div className="grid min-h-screen place-items-center bg-white dark:bg-black p-4">
+        <div className="max-w-xl border-2 border-black dark:border-white bg-white dark:bg-black p-4 shadow-brutal dark:shadow-brutal-dark text-black dark:text-white">
           <h1 className="mb-2 text-lg font-heading uppercase">Account Setup Required</h1>
           <p className="text-sm">
             {authError ?? 'Your account does not have a profile role yet. Please contact a leader.'}

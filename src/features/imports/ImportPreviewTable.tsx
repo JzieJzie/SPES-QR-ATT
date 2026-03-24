@@ -37,7 +37,7 @@ export const ImportPreviewTable = ({ rows, invalidRows }: ImportPreviewTableProp
       </Table>
 
       {invalidRows.length > 0 ? (
-        <div className="border-2 border-black p-2 text-xs">
+        <div className="border-2 border-black dark:border-white p-2 text-xs">
           {invalidRows.slice(0, 10).map((invalidRow) => (
             <p key={invalidRow.rowNumber}>
               Row {invalidRow.rowNumber}: {invalidRow.issues.join(', ')}

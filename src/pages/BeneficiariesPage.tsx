@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { ArchiveConfirmDialog } from '../features/beneficiaries/ArchiveConfirmDialog'
 import { archiveBeneficiary, fetchBeneficiaries } from '../features/beneficiaries/api'
+import { useAuth } from '../hooks/useAuth'
 import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
 import { Input } from '../components/ui/Input'
@@ -12,11 +13,14 @@ import { Table, Td, Th } from '../components/ui/Table'
 export const BeneficiariesPage = () => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const { profile } = useAuth()
   const [keyword, setKeyword] = useState('')
   const [selectedBarangayId, setSelectedBarangayId] = useState<'all' | string>('all')
+  const [selectedBatch, setSelectedBatch] = useState<'all' | 'batch1' | 'batch2'>('all')
   const [currentPage, setCurrentPage] = useState(1)
   const [selected, setSelected] = useState<{ id: string; beneficiaryId: string } | null>(null)
   const pageSize = 50
+  const isDeveloper = profile?.role === 'developer'
 
   const { data = [], isLoading } = useQuery({
     queryKey: ['beneficiaries', 'active'],
@@ -49,6 +53,10 @@ export const BeneficiariesPage = () => {
         return false
       }
 
+      if (isDeveloper && selectedBatch !== 'all' && row.program_batch !== selectedBatch) {
+        return false
+      }
+
       if (!normalized) return true
 
       const haystack = [
@@ -63,7 +71,7 @@ export const BeneficiariesPage = () => {
 
       return haystack.includes(normalized)
     })
-  }, [data, keyword, selectedBarangayId])
+  }, [data, keyword, selectedBarangayId, selectedBatch, isDeveloper])
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize))
   const safeCurrentPage = Math.min(currentPage, totalPages)
@@ -75,7 +83,7 @@ export const BeneficiariesPage = () => {
 
   useEffect(() => {
     setCurrentPage(1)
-  }, [keyword, selectedBarangayId])
+  }, [keyword, selectedBarangayId, selectedBatch])
 
   useEffect(() => {
     if (currentPage > totalPages) {
@@ -92,13 +100,24 @@ export const BeneficiariesPage = () => {
           onChange={(event) => setKeyword(event.target.value)}
           className="flex-1"
         />
+        {isDeveloper ? (
+          <select
+            value={selectedBatch}
+            onChange={(event) => setSelectedBatch(event.target.value as 'all' | 'batch1' | 'batch2')}
+            className="w-full border-2 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white px-2 py-2 text-sm sm:w-44"
+          >
+            <option value="all">All Batches</option>
+            <option value="batch1">Batch 1</option>
+            <option value="batch2">Batch 2</option>
+          </select>
+        ) : null}
         <Button variant="outline" onClick={() => navigate('/beneficiaries/archived')} size="md" className="sm:flex-shrink-0">
           View Archived
         </Button>
       </div>
 
       <div className="grid gap-3 md:grid-cols-[220px_1fr] md:gap-4">
-        <aside className="border-2 border-black bg-white p-2">
+        <aside className="border-2 border-black dark:border-white bg-white dark:bg-black p-2">
           <p className="px-1 pb-2 text-xs font-semibold uppercase tracking-wide">Barangays</p>
           <div className="flex gap-2 overflow-x-auto pb-1 md:flex-col md:overflow-visible">
             <Button
@@ -180,7 +199,9 @@ export const BeneficiariesPage = () => {
                 <tr>
                   <Td>
                     {selectedBarangayId === 'all'
-                      ? 'No beneficiaries found.'
+                      ? isDeveloper && selectedBatch !== 'all'
+                        ? `No beneficiaries found for ${selectedBatch === 'batch2' ? 'Batch 2' : 'Batch 1'}.`
+                        : 'No beneficiaries found.'
                       : 'No beneficiaries found in this barangay.'}
                   </Td>
                   <Td />

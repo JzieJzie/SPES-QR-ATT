@@ -50,7 +50,7 @@ export const LoginPage = () => {
   }
 
   return (
-    <main className="grid min-h-screen place-items-center bg-zinc-100 p-4">
+    <main className="grid min-h-screen place-items-center bg-white dark:bg-black p-4">
       <Card className="w-full max-w-md space-y-4" title="SPES QR Attendance">
         <p className="text-sm">Sign in to scan, manage beneficiaries, and generate reports.</p>
         <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
