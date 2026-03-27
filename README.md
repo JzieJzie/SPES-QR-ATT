@@ -15,6 +15,10 @@ Production-oriented, fully online, mobile-first QR attendance system for SPES be
 - Date/time: date-fns + date-fns-tz
 - Icons: lucide-react
 
+## Documentation
+
+- Full project documentation: `docs/PROJECT_DOCUMENTATION.md`
+
 ## File Tree
 
 ```text
