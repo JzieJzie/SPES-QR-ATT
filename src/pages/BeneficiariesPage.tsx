@@ -16,7 +16,7 @@ export const BeneficiariesPage = () => {
   const { profile } = useAuth()
   const [keyword, setKeyword] = useState('')
   const [selectedBarangayId, setSelectedBarangayId] = useState<'all' | string>('all')
-  const [selectedBatch, setSelectedBatch] = useState<'all' | 'batch1' | 'batch2'>('all')
+  const [selectedBatch, setSelectedBatch] = useState<'all' | 'batch1' | 'batch2' | 'batch3' | 'batch4'>('all')
   const [currentPage, setCurrentPage] = useState(1)
   const [selected, setSelected] = useState<{ id: string; beneficiaryId: string } | null>(null)
   const pageSize = 50
@@ -103,12 +103,14 @@ export const BeneficiariesPage = () => {
         {isDeveloper ? (
           <select
             value={selectedBatch}
-            onChange={(event) => setSelectedBatch(event.target.value as 'all' | 'batch1' | 'batch2')}
+            onChange={(event) => setSelectedBatch(event.target.value as 'all' | 'batch1' | 'batch2' | 'batch3' | 'batch4')}
             className="w-full border-2 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white px-2 py-2 text-sm sm:w-44"
           >
             <option value="all">All Batches</option>
             <option value="batch1">Batch 1</option>
             <option value="batch2">Batch 2</option>
+            <option value="batch3">Batch 3</option>
+            <option value="batch4">Batch 4</option>
           </select>
         ) : null}
         <Button variant="outline" onClick={() => navigate('/beneficiaries/archived')} size="md" className="sm:flex-shrink-0">
@@ -200,7 +202,7 @@ export const BeneficiariesPage = () => {
                   <Td>
                     {selectedBarangayId === 'all'
                       ? isDeveloper && selectedBatch !== 'all'
-                        ? `No beneficiaries found for ${selectedBatch === 'batch2' ? 'Batch 2' : 'Batch 1'}.`
+                          ? `No beneficiaries found for Batch ${selectedBatch.replace('batch', '')}.`
                         : 'No beneficiaries found.'
                       : 'No beneficiaries found in this barangay.'}
                   </Td>

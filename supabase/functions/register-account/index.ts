@@ -20,11 +20,13 @@ type RegisterPayload = {
   appUrl?: string
 }
 
-type ProgramBatch = 'batch1' | 'batch2'
+type ProgramBatch = 'batch1' | 'batch2' | 'batch3' | 'batch4'
 
 type RoleBatchCodes = {
   batch1: string
   batch2: string
+  batch3: string
+  batch4: string
 }
 
 const MAX_ATTEMPTS_PER_IP_PER_HOUR = 8
@@ -54,6 +56,8 @@ const resolveProgramBatch = (
 
   if (normalized === expectedCodes.batch1) return 'batch1'
   if (normalized === expectedCodes.batch2) return 'batch2'
+  if (normalized === expectedCodes.batch3) return 'batch3'
+  if (normalized === expectedCodes.batch4) return 'batch4'
   return null
 }
 
@@ -72,9 +76,13 @@ Deno.serve(async (request) => {
   const leaderSignupCode = Deno.env.get('LEADER_SIGNUP_CODE')
   const leaderSignupCodeBatch1 = Deno.env.get('LEADER_SIGNUP_CODE_BATCH1')
   const leaderSignupCodeBatch2 = Deno.env.get('LEADER_SIGNUP_CODE_BATCH2')
+  const leaderSignupCodeBatch3 = Deno.env.get('LEADER_SIGNUP_CODE_BATCH3')
+  const leaderSignupCodeBatch4 = Deno.env.get('LEADER_SIGNUP_CODE_BATCH4')
   const coLeaderSignupCode = Deno.env.get('CO_LEADER_SIGNUP_CODE')
   const coLeaderSignupCodeBatch1 = Deno.env.get('CO_LEADER_SIGNUP_CODE_BATCH1')
   const coLeaderSignupCodeBatch2 = Deno.env.get('CO_LEADER_SIGNUP_CODE_BATCH2')
+  const coLeaderSignupCodeBatch3 = Deno.env.get('CO_LEADER_SIGNUP_CODE_BATCH3')
+  const coLeaderSignupCodeBatch4 = Deno.env.get('CO_LEADER_SIGNUP_CODE_BATCH4')
 
   if (!serviceRoleKey || !supabaseUrl || !smtpPassword) {
     return new Response(
@@ -99,7 +107,12 @@ Deno.serve(async (request) => {
     })
   }
 
-  if (payload.programBatch !== 'batch1' && payload.programBatch !== 'batch2') {
+  if (
+    payload.programBatch !== 'batch1'
+    && payload.programBatch !== 'batch2'
+    && payload.programBatch !== 'batch3'
+    && payload.programBatch !== 'batch4'
+  ) {
     return new Response(JSON.stringify({ error: 'Invalid batch selected.' }), {
       status: 400,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -109,11 +122,15 @@ Deno.serve(async (request) => {
   const leaderBatchCodes: RoleBatchCodes = {
     batch1: leaderSignupCodeBatch1?.trim() || leaderSignupCode?.trim() || 'SPES_LEADER_2026_1',
     batch2: leaderSignupCodeBatch2?.trim() || 'SPES_LEADER_2026_2',
+    batch3: leaderSignupCodeBatch3?.trim() || 'SPES_LEADER_2026_3',
+    batch4: leaderSignupCodeBatch4?.trim() || 'SPES_LEADER_2026_4',
   }
 
   const coLeaderBatchCodes: RoleBatchCodes = {
     batch1: coLeaderSignupCodeBatch1?.trim() || coLeaderSignupCode?.trim() || 'SPES_CO-LEADER_2026_1',
     batch2: coLeaderSignupCodeBatch2?.trim() || 'SPES_CO-LEADER_2026_2',
+    batch3: coLeaderSignupCodeBatch3?.trim() || 'SPES_CO-LEADER_2026_3',
+    batch4: coLeaderSignupCodeBatch4?.trim() || 'SPES_CO-LEADER_2026_4',
   }
 
   let requestedBatch: ProgramBatch | null = null
@@ -211,7 +228,7 @@ Deno.serve(async (request) => {
 
   if (requestedBatch !== payload.programBatch) {
     return new Response(JSON.stringify({
-      error: `The access code does not match the selected ${payload.programBatch === 'batch2' ? 'Batch 2' : 'Batch 1'}.`,
+      error: `The access code does not match the selected Batch ${payload.programBatch.replace('batch', '')}.`,
     }), {
       status: 403,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

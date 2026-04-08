@@ -14,7 +14,7 @@ export interface Database {
           id: string
           full_name: string | null
           role: 'leader' | 'co-leader' | 'developer'
-          program_batch: 'batch1' | 'batch2' | null
+          program_batch: 'batch1' | 'batch2' | 'batch3' | 'batch4' | null
           created_at: string
           updated_at: string
         }
@@ -22,14 +22,14 @@ export interface Database {
           id: string
           full_name?: string | null
           role?: 'leader' | 'co-leader' | 'developer'
-          program_batch?: 'batch1' | 'batch2' | null
+          program_batch?: 'batch1' | 'batch2' | 'batch3' | 'batch4' | null
           created_at?: string
           updated_at?: string
         }
         Update: {
           full_name?: string | null
           role?: 'leader' | 'co-leader' | 'developer'
-          program_batch?: 'batch1' | 'batch2' | null
+          program_batch?: 'batch1' | 'batch2' | 'batch3' | 'batch4' | null
           updated_at?: string
         }
       }
@@ -46,7 +46,7 @@ export interface Database {
           first_name: string
           middle_name: string | null
           barangay_id: string
-          program_batch: 'batch1' | 'batch2'
+          program_batch: 'batch1' | 'batch2' | 'batch3' | 'batch4'
           is_archived: boolean
           created_at: string
           updated_at: string
@@ -58,7 +58,7 @@ export interface Database {
           first_name: string
           middle_name?: string | null
           barangay_id: string
-          program_batch?: 'batch1' | 'batch2'
+          program_batch?: 'batch1' | 'batch2' | 'batch3' | 'batch4'
           is_archived?: boolean
           created_at?: string
           updated_at?: string
@@ -68,7 +68,7 @@ export interface Database {
           first_name?: string
           middle_name?: string | null
           barangay_id?: string
-          program_batch?: 'batch1' | 'batch2'
+          program_batch?: 'batch1' | 'batch2' | 'batch3' | 'batch4'
           is_archived?: boolean
           updated_at?: string
         }
@@ -196,7 +196,7 @@ export interface Database {
           total_rows: number
           success_rows: number
           failed_rows: number
-          program_batch: 'batch1' | 'batch2' | null
+          program_batch: 'batch1' | 'batch2' | 'batch3' | 'batch4' | null
           imported_by: string | null
           imported_at: string
         }
@@ -207,14 +207,14 @@ export interface Database {
           total_rows: number
           success_rows: number
           failed_rows: number
-          program_batch?: 'batch1' | 'batch2' | null
+          program_batch?: 'batch1' | 'batch2' | 'batch3' | 'batch4' | null
           imported_by?: string | null
           imported_at?: string
         }
         Update: {
           success_rows?: number
           failed_rows?: number
-          program_batch?: 'batch1' | 'batch2' | null
+          program_batch?: 'batch1' | 'batch2' | 'batch3' | 'batch4' | null
         }
       }
       audit_logs: {

@@ -79,6 +79,8 @@ export const ImportMasterlistPage = () => {
           >
             <option value="batch1">Batch 1</option>
             <option value="batch2">Batch 2</option>
+            <option value="batch3">Batch 3</option>
+            <option value="batch4">Batch 4</option>
           </select>
         </div>
 
@@ -107,7 +109,7 @@ export const ImportMasterlistPage = () => {
           <p>
             File: <span className="font-mono break-all">{file?.name ?? 'N/A'}</span>
           </p>
-          <p>Selected batch: {selectedBatch === 'batch1' ? 'Batch 1' : 'Batch 2'}</p>
+          <p>Selected batch: Batch {selectedBatch.replace('batch', '')}</p>
           <p>Valid rows to import: {rows.length}</p>
           <p>Invalid rows (will be skipped): {invalidRows.length}</p>
           <div className="flex gap-2 flex-wrap">

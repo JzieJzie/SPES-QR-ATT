@@ -106,7 +106,9 @@ export const ReportsPage = () => {
           firstName: beneficiary.first_name,
           middleName: beneficiary.middle_name ?? '',
           barangay: beneficiary.barangays.name,
-          programBatch: beneficiary.program_batch === 'batch2' ? 'Batch 2' : 'Batch 1',
+          programBatch: beneficiary.program_batch
+            ? `Batch ${beneficiary.program_batch.replace('batch', '')}`
+            : 'N/A',
           qrImageUrl,
           qrDownloadUrl,
         })
