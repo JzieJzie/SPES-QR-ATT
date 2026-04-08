@@ -4,6 +4,7 @@ import { supabase } from '../../lib/supabase/client'
 import type { ImportRow } from '../../lib/validators/import'
 
 const QR_BUCKET = 'qr-codes'
+const IMPORT_CONCURRENCY = 5
 
 type ImportSummary = {
   totalRows: number
@@ -39,15 +40,24 @@ const toPngBlob = async (value: string): Promise<Blob> => {
   return new Blob([bytes], { type: 'image/png' })
 }
 
-const getOrCreateBarangayId = async (name: string): Promise<string> => {
+const getOrCreateBarangayId = async (
+  name: string,
+  cache: Map<string, string>,
+): Promise<string> => {
   const normalized = name.trim().toUpperCase()
+  const cachedId = cache.get(normalized)
+  if (cachedId) return cachedId
+
   const { data: existing } = await supabase
     .from('barangays')
     .select('id')
     .eq('name', normalized)
     .maybeSingle()
 
-  if (existing?.id) return existing.id
+  if (existing?.id) {
+    cache.set(normalized, existing.id)
+    return existing.id
+  }
 
   const { data, error } = await supabase
     .from('barangays')
@@ -59,7 +69,49 @@ const getOrCreateBarangayId = async (name: string): Promise<string> => {
     throw error ?? new Error('Failed to create barangay')
   }
 
+  cache.set(normalized, data.id)
   return data.id
+}
+
+const processImportRow = async (
+  row: ImportRow,
+  rowIndex: number,
+  programBatch: ProgramBatch,
+  barangayCache: Map<string, string>,
+): Promise<{ success: true } | { success: false; row: number; reason: string }> => {
+  try {
+    const barangayId = await getOrCreateBarangayId(row.Barangay, barangayCache)
+    const beneficiary = await getOrCreateBeneficiary(row, barangayId, programBatch)
+
+    const qrBlob = await toPngBlob(beneficiary.beneficiary_id)
+    const qrPath = `${beneficiary.beneficiary_id}.png`
+
+    const { error: uploadError } = await supabase.storage
+      .from(QR_BUCKET)
+      .upload(qrPath, qrBlob, { upsert: true, contentType: 'image/png' })
+
+    if (uploadError) throw uploadError
+
+    const { error: qrError } = await supabase.from('beneficiary_qr_codes').upsert(
+      {
+        beneficiary_ref: beneficiary.id,
+        qr_value: beneficiary.beneficiary_id,
+        qr_image_path: qrPath,
+      },
+      {
+        onConflict: 'beneficiary_ref',
+      },
+    )
+
+    if (qrError) throw qrError
+
+    return { success: true }
+  } catch (error) {
+    const reason = summarizeFailure(
+      error instanceof Error ? error.message : 'Unknown import error',
+    )
+    return { success: false, row: rowIndex + 1, reason }
+  }
 }
 
 const getOrCreateBeneficiary = async (
@@ -124,42 +176,37 @@ export const importMasterlistRows = async (
 ): Promise<ImportSummary> => {
   let successRows = 0
   const failures: Array<{ row: number; reason: string }> = []
+  const barangayCache = new Map<string, string>()
 
-  for (const [index, row] of rows.entries()) {
-    try {
-      const barangayId = await getOrCreateBarangayId(row.Barangay)
-      const beneficiary = await getOrCreateBeneficiary(row, barangayId, programBatch)
+  let nextRowIndex = 0
+  const workerCount = Math.max(1, Math.min(IMPORT_CONCURRENCY, rows.length))
 
-      const qrBlob = await toPngBlob(beneficiary.beneficiary_id)
-      const qrPath = `${beneficiary.beneficiary_id}.png`
+  const worker = async () => {
+    while (true) {
+      const rowIndex = nextRowIndex
+      nextRowIndex += 1
 
-      const { error: uploadError } = await supabase.storage
-        .from(QR_BUCKET)
-        .upload(qrPath, qrBlob, { upsert: true, contentType: 'image/png' })
+      if (rowIndex >= rows.length) {
+        return
+      }
 
-      if (uploadError) throw uploadError
-
-      const { error: qrError } = await supabase.from('beneficiary_qr_codes').upsert(
-        {
-          beneficiary_ref: beneficiary.id,
-          qr_value: beneficiary.beneficiary_id,
-          qr_image_path: qrPath,
-        },
-        {
-          onConflict: 'beneficiary_ref',
-        },
+      const result = await processImportRow(
+        rows[rowIndex],
+        rowIndex,
+        programBatch,
+        barangayCache,
       )
 
-      if (qrError) throw qrError
-
-      successRows += 1
-    } catch (error) {
-      const reason = summarizeFailure(
-        error instanceof Error ? error.message : 'Unknown import error',
-      )
-      failures.push({ row: index + 1, reason })
+      if (result.success) {
+        successRows += 1
+      } else {
+        failures.push({ row: result.row, reason: result.reason })
+      }
     }
   }
+
+  await Promise.all(Array.from({ length: workerCount }, () => worker()))
+  failures.sort((a, b) => a.row - b.row)
 
   const failedRows = failures.length
 
