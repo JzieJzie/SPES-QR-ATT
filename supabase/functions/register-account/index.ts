@@ -1,5 +1,14 @@
+// @ts-ignore Deno remote specifier is resolved at runtime by Supabase Edge Runtime.
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+// @ts-ignore Deno npm: specifier is resolved at runtime by Supabase Edge Runtime.
 import nodemailer from 'npm:nodemailer@6.10.1'
+
+declare const Deno: {
+  serve: (handler: (request: Request) => Response | Promise<Response>) => void
+  env: {
+    get: (key: string) => string | undefined
+  }
+}
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -61,7 +70,7 @@ const resolveProgramBatch = (
   return null
 }
 
-Deno.serve(async (request) => {
+Deno.serve(async (request: Request) => {
   if (request.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
