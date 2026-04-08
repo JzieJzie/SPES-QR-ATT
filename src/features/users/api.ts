@@ -26,7 +26,7 @@ export type LeaderDirectoryRecord = {
   id: string
   full_name: string | null
   role: 'leader' | 'co-leader'
-  program_batch: 'batch1' | 'batch2' | null
+    program_batch: 'batch1' | 'batch2' | 'batch3' | 'batch4' | null
   barangay_name: string | null
   avatar_url: string | null
 }

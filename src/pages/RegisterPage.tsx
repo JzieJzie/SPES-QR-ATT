@@ -16,7 +16,7 @@ const registerSchema = z.object({
   email: z.string().email('Use a valid email'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
   role: z.enum(['leader', 'co-leader']),
-  programBatch: z.enum(['batch1', 'batch2']),
+  programBatch: z.enum(['batch1', 'batch2', 'batch3', 'batch4']),
   barangayName: z.string().min(1, 'Barangay is required'),
   leaderAccessCode: z.string().optional(),
   coLeaderAccessCode: z.string().optional(),
@@ -143,11 +143,13 @@ export const RegisterPage = () => {
             >
               <option value="batch1">Batch 1</option>
               <option value="batch2">Batch 2</option>
+                <option value="batch3">Batch 3</option>
+                <option value="batch4">Batch 4</option>
             </select>
           </label>
           {selectedRole === 'leader' ? (
             <label className="grid gap-1 text-sm">
-              Leader Access Code ({selectedProgramBatch === 'batch2' ? 'Batch 2' : 'Batch 1'})
+                Leader Access Code (Batch {selectedProgramBatch.replace('batch', '')})
               <Input type="password" autoComplete="off" {...register('leaderAccessCode')} />
               {formState.errors.leaderAccessCode ? (
                 <span className="text-xs font-semibold">{formState.errors.leaderAccessCode.message}</span>
@@ -156,7 +158,7 @@ export const RegisterPage = () => {
           ) : null}
           {selectedRole === 'co-leader' ? (
             <label className="grid gap-1 text-sm">
-              Co-Leader Access Code ({selectedProgramBatch === 'batch2' ? 'Batch 2' : 'Batch 1'})
+                Co-Leader Access Code (Batch {selectedProgramBatch.replace('batch', '')})
               <Input type="password" autoComplete="off" {...register('coLeaderAccessCode')} />
               {formState.errors.coLeaderAccessCode ? (
                 <span className="text-xs font-semibold">{formState.errors.coLeaderAccessCode.message}</span>

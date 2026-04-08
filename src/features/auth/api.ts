@@ -5,7 +5,7 @@ export type RegisterPayload = {
   password: string
   fullName: string
   role: 'leader' | 'co-leader'
-  programBatch: 'batch1' | 'batch2'
+  programBatch: 'batch1' | 'batch2' | 'batch3' | 'batch4'
   barangayName: string
   leaderAccessCode?: string
   coLeaderAccessCode?: string

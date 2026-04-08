@@ -42,7 +42,7 @@ export const LeadersDirectoryPage = () => {
               <tr key={leader.id}>
                 <Td>{leader.full_name ?? 'N/A'}</Td>
                 <Td>{leader.role}</Td>
-                <Td>{leader.program_batch === 'batch2' ? 'Batch 2' : 'Batch 1'}</Td>
+                  <Td>{leader.program_batch ? `Batch ${leader.program_batch.replace('batch', '')}` : 'N/A'}</Td>
                 <Td>{leader.barangay_name ?? 'N/A'}</Td>
               </tr>
             ))

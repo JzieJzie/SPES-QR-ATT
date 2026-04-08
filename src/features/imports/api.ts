@@ -12,7 +12,7 @@ type ImportSummary = {
   failures: Array<{ row: number; reason: string }>
 }
 
-export type ProgramBatch = 'batch1' | 'batch2'
+export type ProgramBatch = 'batch1' | 'batch2' | 'batch3' | 'batch4'
 
 const summarizeFailure = (message: string): string => {
   const normalized = message.toLowerCase()
